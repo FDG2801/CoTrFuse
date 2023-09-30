@@ -13,7 +13,7 @@
    also note that there is a problem with the csv, you can find the modified version of csv here (the problem was that in the code are called `image_id` and in the .csv are called `image_name`, also it removes the extension of the pic and the code won't find the path to the image - maybe only windows problem but however)
 
    drive to all the csv(s) with `image_name` instead of `image_id`: https://drive.google.com/drive/u/3/folders/1TlDK3TDqLNQTV35m93yhjsI9XAnzg3NG
-   if you need to modify - adding the extensino to the image - you can use `modCSV` or `modifyCSV.py` here in the repo
+   `modifyCSV.py` adds ".jpg" to the images
 
    I could not find any csv for the covid dataset
 

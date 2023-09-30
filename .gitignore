@@ -1,2 +1,2 @@
-datasets\covid_dataset
-datasets\isic2017
+.DS_Store
+.datasets/covid_dataset

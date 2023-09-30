@@ -1,5 +1,11 @@
 # CoTrFuse
 
+## 0. Copy this folder
+- I did a copy with: 
+1. code
+2. open github desktop
+3. selected a folder
+
 ## 1.Download pre-trained swin transformer model (Swin-T)
 - Model already downloaded, it is in the 'pretrained_ckpt' directory. Also the 'checkpoint' directory has been created
 

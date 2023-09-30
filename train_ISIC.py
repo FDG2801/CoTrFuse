@@ -173,7 +173,7 @@ def train(model, save_name):
                           drop_last=True, )
     val_dl = DataLoader(val_ds, batch_size=args.batch_size, pin_memory=False, num_workers=8, )
     best_acc = 0
-    print("Start")
+    print("Start inside train function")
     with tqdm(total=epochs, ncols=60) as t:
         for epoch in range(epochs):
             epoch_loss, epoch_iou, epoch_val_loss, epoch_val_iou = \
@@ -195,12 +195,12 @@ def train(model, save_name):
 
 
 if __name__ == '__main__':
-    print("Avvio...")
+    print("Starting (__main__)...")
     model = Vit(config, img_size=args.img_size, num_classes=args.num_classes).cuda()
-    print("Modello creato (vit)")
-    print("Carico i file di config")
+    print("Model created (vit)")
+    print("Charging config file")
     model.load_from(config)
-    print("Caricati")
-    print("Training avviato....")
+    print("Charged config file")
+    print("Starting training....")
     train(model, 'CoTrFuse/ISIC')
-    print("...Training concluso")
+    print("...Training over")

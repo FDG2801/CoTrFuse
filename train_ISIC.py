@@ -115,37 +115,37 @@ val_masks = [''.join([val_masks, '/', i.replace('.jpg', '_segmentation.png')]) f
 # print(val_masks)
 #--------------------
 print("getting all training images and everything needed for the train")
-# #---- ORIGINAL IMPLEMENTATION
-# imgs_train = [cv2.imread(i)[:, :, ::-1] for i in train_imgs]
-# masks_train = [cv2.imread(i)[:, :, 0] for i in train_masks]
-# imgs_val = [cv2.imread(i)[:, :, ::-1] for i in val_imgs]
-# masks_val = [cv2.imread(i)[:, :, 0] for i in val_masks]
-#---MODIFICATION DUE TO SETUP
-import cv2
+#---- ORIGINAL IMPLEMENTATION --- to run on server
+imgs_train = [cv2.imread(i)[:, :, ::-1] for i in train_imgs]
+masks_train = [cv2.imread(i)[:, :, 0] for i in train_masks]
+imgs_val = [cv2.imread(i)[:, :, ::-1] for i in val_imgs]
+masks_val = [cv2.imread(i)[:, :, 0] for i in val_masks]
+#---MODIFICATION DUE TO SETUP --- ONLY ON LOCAL
+# import cv2
 
-# Funzione per caricare e ridimensionare le immagini
-def load_and_resize_images(file_paths, target_size):
-    print("in load_and_resize images")
-    images = []
+# # Funzione per caricare e ridimensionare le immagini
+# def load_and_resize_images(file_paths, target_size):
+#     print("in load_and_resize images")
+#     images = []
 
-    for file_path in file_paths:
-        #print("dentro il for")
-        img = cv2.imread(file_path)[:, :, ::-1]  # Carica e converte in RGB
-        img_resized = cv2.resize(img, target_size)  # Ridimensiona l'immagine
-        images.append(img_resized)
-    print("Done")
-    return images
+#     for file_path in file_paths:
+#         #print("dentro il for")
+#         img = cv2.imread(file_path)[:, :, ::-1]  # Carica e converte in RGB
+#         img_resized = cv2.resize(img, target_size)  # Ridimensiona l'immagine
+#         images.append(img_resized)
+#     print("Done")
+#     return images
 
-# Esempio di utilizzo
-target_size = (128, 128)  # Specifica la dimensione desiderata
-imgs_train = load_and_resize_images(train_imgs, target_size)
-print("imgs_train ok")
-imgs_val = load_and_resize_images(val_imgs, target_size)
-print("imgs_val ok")
-masks_train=load_and_resize_images(train_masks,target_size)
-print("mask_train ok")
-masks_val=load_and_resize_images(val_masks,target_size)
-print("masks_val ok")
+# # Esempio di utilizzo
+# target_size = (128, 128)  # Specifica la dimensione desiderata
+# imgs_train = load_and_resize_images(train_imgs, target_size)
+# print("imgs_train ok")
+# imgs_val = load_and_resize_images(val_imgs, target_size)
+# print("imgs_val ok")
+# masks_train=load_and_resize_images(train_masks,target_size)
+# print("mask_train ok")
+# masks_val=load_and_resize_images(val_masks,target_size)
+# print("masks_val ok")
 
 
 print('image done')

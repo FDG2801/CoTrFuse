@@ -1,3 +1,4 @@
 .DS_Store
 datasets/covid_dataset
 datasets/isic_2017
+datasets/isic2017/ISIC-2017_Validation_Part3_GroundTruth.csv

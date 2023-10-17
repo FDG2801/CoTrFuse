@@ -40,7 +40,7 @@ parser.add_argument('--workers', default=16, type=int, help='batchsize')
 parser.add_argument('--lr', default=0.0001, type=float, help='learning rate')
 parser.add_argument('--start_epoch', '-s', default=0, type=int, )
 parser.add_argument('--warm_epoch', '-w', default=0, type=int, )
-parser.add_argument('--end_epoch', '-e', default=5, type=int, )
+parser.add_argument('--end_epoch', '-e', default=1, type=int, )
 parser.add_argument('--img_size', type=int,
                     default=512, help='input patch size of network input')
 parser.add_argument('--cfg', type=str, required=False, metavar="FILE", help='path to config file', default=
@@ -169,9 +169,9 @@ def train(model, save_name):
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     CosineLR = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-8)
 
-    train_dl = DataLoader(train_ds, shuffle=True, batch_size=args.batch_size, pin_memory=False, num_workers=8,
+    train_dl = DataLoader(train_ds, shuffle=True, batch_size=args.batch_size, pin_memory=False, num_workers=0,
                           drop_last=True, )
-    val_dl = DataLoader(val_ds, batch_size=args.batch_size, pin_memory=False, num_workers=8, )
+    val_dl = DataLoader(val_ds, batch_size=args.batch_size, pin_memory=False, num_workers=0, )
     best_acc = 0
     print("Start inside train function")
     with tqdm(total=epochs, ncols=60) as t:
@@ -202,5 +202,5 @@ if __name__ == '__main__':
     model.load_from(config)
     print("Charged config file")
     print("Starting training....")
-    train(model, 'CoTrFuse_ISIC')
+    train(model, '/CoTrFuse_ISIC')
     print("...Training over")

@@ -25,7 +25,9 @@ class Mydataset(data.Dataset):
 
 
 def for_train_transform():
+    desired_size = 512
     train_transform = A.Compose([
+        A.Resize(width=desired_size, height=desired_size),
         A.RandomRotate90(),
         A.Flip(p=0.5),
         A.ShiftScaleRotate(shift_limit=0, scale_limit=(-0.2, 0.1), rotate_limit=40, p=0.5),
@@ -48,7 +50,7 @@ def for_train_transform():
             p=1.0
         ),
         ToTensorV2()], p=1.)
-    return train_transform
+    return train_transform 
 
 
 test_transform = A.Compose([

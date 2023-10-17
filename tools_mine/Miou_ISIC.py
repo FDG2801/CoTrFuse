@@ -10,8 +10,12 @@ def calculate_miou(input, target, classNum):
     :return:
     '''
 
-    inputTmp = torch.zeros([input.shape[0], classNum, input.shape[1], input.shape[2]]).cuda()  # 创建[b,c,h,w]大小的0矩阵
-    targetTmp = torch.zeros([target.shape[0], classNum, target.shape[1], target.shape[2]]).cuda()  # 同上
+    if torch.cuda.is_available():
+        inputTmp = torch.zeros([input.shape[0], classNum, input.shape[1], input.shape[2]]).cuda()  # 创建[b,c,h,w]大小的0矩阵
+        targetTmp = torch.zeros([target.shape[0], classNum, target.shape[1], target.shape[2]]).cuda()  # 同上
+    else:
+        inputTmp = torch.zeros([input.shape[0], classNum, input.shape[1], input.shape[2]])  # 创建[b,c,h,w]大小的0矩阵
+        targetTmp = torch.zeros([target.shape[0], classNum, target.shape[1], target.shape[2]])  # 同上
     input = input.unsqueeze(1)  # 将input维度扩充为[b,1,h,w]
     target = target.unsqueeze(1)  # 同上
     inputOht = inputTmp.scatter_(index=input, dim=1, value=1)  # input作为索引，将0矩阵转换为onehot矩阵
@@ -39,8 +43,12 @@ def calculate_mdice(input, target, classNum):
     :param classNum: scalar
     :return:
     '''
-    inputTmp = torch.zeros([input.shape[0], classNum, input.shape[1], input.shape[2]]).cuda()  # 创建[b,c,h,w]大小的0矩阵
-    targetTmp = torch.zeros([target.shape[0], classNum, target.shape[1], target.shape[2]]).cuda()  # 同上
+    if torch.cuda.is_available():
+        inputTmp = torch.zeros([input.shape[0], classNum, input.shape[1], input.shape[2]]).cuda()  # 创建[b,c,h,w]大小的0矩阵
+        targetTmp = torch.zeros([target.shape[0], classNum, target.shape[1], target.shape[2]]).cuda()  # 同上
+    else: 
+        inputTmp = torch.zeros([input.shape[0], classNum, input.shape[1], input.shape[2]])  # 创建[b,c,h,w]大小的0矩阵
+        targetTmp = torch.zeros([target.shape[0], classNum, target.shape[1], target.shape[2]])  # 同上
     input = input.unsqueeze(1)  # 将input维度扩充为[b,1,h,w]
     target = target.unsqueeze(1)  # 同上
     inputOht = inputTmp.scatter_(index=input, dim=1, value=1)  # input作为索引，将0矩阵转换为onehot矩阵
@@ -127,8 +135,12 @@ def calculate_fwiou(input, target, classNum):
     :param classNum: scalar
     :return:
     '''
-    inputTmp = torch.zeros([input.shape[0], classNum, input.shape[1], input.shape[2]]).cuda()  # 创建[b,c,h,w]大小的0矩阵
-    targetTmp = torch.zeros([target.shape[0], classNum, target.shape[1], target.shape[2]]).cuda()  # 同上
+    if torch.cuda.is_available():
+        inputTmp = torch.zeros([input.shape[0], classNum, input.shape[1], input.shape[2]]).cuda()  # 创建[b,c,h,w]大小的0矩阵
+        targetTmp = torch.zeros([target.shape[0], classNum, target.shape[1], target.shape[2]]).cuda()  # 同上
+    else:
+        inputTmp = torch.zeros([input.shape[0], classNum, input.shape[1], input.shape[2]])  # 创建[b,c,h,w]大小的0矩阵
+        targetTmp = torch.zeros([target.shape[0], classNum, target.shape[1], target.shape[2]])  # 同上
     input = input.unsqueeze(1)  # 将input维度扩充为[b,1,h,w]
     target = target.unsqueeze(1)  # 同上
     inputOht = inputTmp.scatter_(index=input, dim=1, value=1)  # input作为索引，将0矩阵转换为onehot矩阵

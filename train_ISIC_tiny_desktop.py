@@ -114,32 +114,35 @@ Modificare evitando di mettere tutto in memoria
 '''
 import cv2
 
-# Funzione per caricare e ridimensionare le immagini
-def load_and_resize_images(file_paths, target_size,mask=False):
-    print("in load_and_resize images")
-    images = []
+import cv2
+import numpy as np
 
+def load_and_resize_images_efficient(file_paths, target_size,mask=False):
+    images = []
     for file_path in file_paths:
-        #print("dentro il for")
         if mask:
             img = cv2.imread(file_path)[:, :, 0]
         else:
             img = cv2.imread(file_path)[:, :, ::-1]  # Carica e converte in RGB
-        img_resized = cv2.resize(img, target_size)  # Ridimensiona l'immagine
+        img_resized = cv2.resize(img, target_size)
+        img_resized = np.array(img_resized)
         images.append(img_resized)
-    print("Done")
     return images
 
 # Esempio di utilizzo
 target_size = (512, 512)  # Specifica la dimensione desiderata
-imgs_train = load_and_resize_images(train_imgs, target_size)
+imgs_train = load_and_resize_images_efficient(train_imgs, target_size)
 print("imgs_train ok")
-imgs_val = load_and_resize_images(val_imgs, target_size)
+imgs_val = load_and_resize_images_efficient(val_imgs, target_size)
 print("imgs_val ok")
-masks_train=load_and_resize_images(train_masks,target_size,True)
+masks_train=load_and_resize_images_efficient(train_masks,target_size,True)
 print("mask_train ok")
-masks_val=load_and_resize_images(val_masks,target_size,True)
+masks_val=load_and_resize_images_efficient(val_masks,target_size,True)
 print("masks_val ok")
+
+# -------- 
+
+
 
 
 print('image done')
@@ -196,5 +199,5 @@ if __name__ == '__main__':
     model.load_from(config)
     print("Charged config file")
     print("Starting training....")
-    train(model, 'CoTrFuse_ISIC')
+    train(model, '/CoTrFuse_ISIC')
     print("...Training over")

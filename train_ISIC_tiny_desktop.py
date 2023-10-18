@@ -115,13 +115,16 @@ Modificare evitando di mettere tutto in memoria
 import cv2
 
 # Funzione per caricare e ridimensionare le immagini
-def load_and_resize_images(file_paths, target_size):
+def load_and_resize_images(file_paths, target_size,mask=False):
     print("in load_and_resize images")
     images = []
 
     for file_path in file_paths:
         #print("dentro il for")
-        img = cv2.imread(file_path)[:, :, ::-1]  # Carica e converte in RGB
+        if mask:
+            img = cv2.imread(file_path)[:, :, 0]
+        else:
+            img = cv2.imread(file_path)[:, :, ::-1]  # Carica e converte in RGB
         img_resized = cv2.resize(img, target_size)  # Ridimensiona l'immagine
         images.append(img_resized)
     print("Done")
@@ -133,9 +136,9 @@ imgs_train = load_and_resize_images(train_imgs, target_size)
 print("imgs_train ok")
 imgs_val = load_and_resize_images(val_imgs, target_size)
 print("imgs_val ok")
-masks_train=load_and_resize_images(train_masks,target_size)
+masks_train=load_and_resize_images(train_masks,target_size,True)
 print("mask_train ok")
-masks_val=load_and_resize_images(val_masks,target_size)
+masks_val=load_and_resize_images(val_masks,target_size,True)
 print("masks_val ok")
 
 
@@ -193,5 +196,5 @@ if __name__ == '__main__':
     model.load_from(config)
     print("Charged config file")
     print("Starting training....")
-    train(model, '/CoTrFuse_ISIC')
+    train(model, 'CoTrFuse_ISIC')
     print("...Training over")

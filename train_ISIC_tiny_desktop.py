@@ -80,25 +80,12 @@ print("Getting labels and images path")
 train_csv = args.csv_dir_train
 df_train = pd.read_csv(train_csv)
 train_imgs, train_masks = args.imgs_train_path, args.labels_train_path
-#--------------------------
-#import os 
-#assert os.path.exists("datasets/ISIC-2017_Training_Data/ISIC-2017_Training_Part1_GroundTruth/ISIC-2017_Training_Part1_GroundTruth/ISIC_0000000.jpg")
-#ok
-#--------------------------
-#print("questo è train_imgs", train_imgs) ok
 # NEL FILE CSV MANCA .JPG A IMAGE_NAME!!!!
 print("getting images")
 train_imgs = [''.join([train_imgs, '/', i.replace('.jpg', '.jpg')]) for i in df_train['image_name']]
-#print("questo è train_imgs", train_imgs) #ok
 train_masks = [''.join([train_masks, '/', i.replace('.jpg', '_segmentation.png')]) for i in df_train['image_name']]
 #ORIGINAL:
 #train_masks = [''.join([train_masks, '/', i.replace('.png', '_segmentation.png')]) for i in df_train['image_name']]
-#provo ad aprire
-#--------------------
-# print("TRAIN IMGS: ",train_imgs)
-# print("TRAIN masks: ",train_masks)
-#--------------------
-#print("TRAIN MASKS: ",train_masks) OK
 print("got images")
 print("taking val imgs and masks path")
 df_val = pd.read_csv(args.csv_dir_val)
@@ -108,19 +95,23 @@ val_imgs, val_masks = args.imgs_val_path, args.labels_val_path
 #--------------------
 print("getting val")
 val_imgs = [''.join([val_imgs, '/', i]) for i in df_val['image_name']]
-## val_masks = [''.join([val_masks, '/', i]) for i in df_val['image_name']]
+'''
+Original version:
+val_masks = [''.join([val_masks, '/', i]) for i in df_val['image_name']]
+'''
 val_masks = [''.join([val_masks, '/', i.replace('.jpg', '_segmentation.png')]) for i in df_val['image_name']]
-#--------------------
-# print(val_imgs)
-# print(val_masks)
-#--------------------
 print("getting all training images and everything needed for the train")
-#---- ORIGINAL IMPLEMENTATION --- to run on server
-# imgs_train = [cv2.imread(i)[:, :, ::-1] for i in train_imgs]
-# masks_train = [cv2.imread(i)[:, :, 0] for i in train_masks]
-# imgs_val = [cv2.imread(i)[:, :, ::-1] for i in val_imgs]
-# masks_val = [cv2.imread(i)[:, :, 0] for i in val_masks]
-#---MODIFICATION DUE TO SETUP --- ONLY ON LOCAL
+#---MODIFICATION DUE TO SETUP 
+'''
+---- ORIGINAL IMPLEMENTATION --- not to run. very bad behaviour
+imgs_train = [cv2.imread(i)[:, :, ::-1] for i in train_imgs]
+masks_train = [cv2.imread(i)[:, :, 0] for i in train_masks]
+imgs_val = [cv2.imread(i)[:, :, ::-1] for i in val_imgs]
+masks_val = [cv2.imread(i)[:, :, 0] for i in val_masks]
+'''
+'''
+Modificare evitando di mettere tutto in memoria
+'''
 import cv2
 
 # Funzione per caricare e ridimensionare le immagini

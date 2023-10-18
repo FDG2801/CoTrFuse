@@ -199,5 +199,5 @@ if __name__ == '__main__':
     model.load_from(config)
     print("Charged config file")
     print("Starting training....")
-    train(model, '/CoTrFuse_ISIC')
+    train(model, 'CoTrFuse_ISIC')
     print("...Training over")

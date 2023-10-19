@@ -28,15 +28,20 @@ class ISIC2017(Dataset):
             print("getting val")
             self.images = [''.join([self.images, '/', i]) for i in self.df['image_name']]
             self.masks = [''.join([self.masks, '/', i.replace('.jpg', '_segmentation.png')]) for i in self.df['image_name']]
-                    
+        # print("OBTAINED: ")
+        # print("images: ",self.images)
+        # print("masks: ",self.masks)
         
     def __getitem__(self, index):
-        img=cv2.imread(self.images[index])
-        label=np.array(self.masks[index])
-        img = cv2.resize(img, (512,512))
+        img = cv2.imread(self.images[index])[:, :, ::-1]
+        mask = cv2.imread(self.masks[index], cv2.IMREAD_GRAYSCALE)  # Carica la maschera in scala di grigi
+        if img.shape[:2] != mask.shape[:2]:
+            mask = cv2.resize(mask, (img.shape[1], img.shape[0]))
         if self.transform:
-            img=self.transform(image=img,mask=label)
-        return img,label
+            augmented = self.transform(image=img, mask=mask)
+            img = augmented['image']
+            mask = augmented['mask']
+        return img, mask
     
     def __len__(self):
         return len(self.images)

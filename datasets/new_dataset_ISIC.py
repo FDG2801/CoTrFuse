@@ -35,6 +35,7 @@ class ISIC2017(Dataset):
     def __getitem__(self, index):
         img = cv2.imread(self.images[index])[:, :, ::-1]
         mask = cv2.imread(self.masks[index], cv2.IMREAD_GRAYSCALE)  # Carica la maschera in scala di grigi
+        img = cv2.resize(img,(512,512)) #resize image
         if img.shape[:2] != mask.shape[:2]:
             mask = cv2.resize(mask, (img.shape[1], img.shape[0]))
         if self.transform:

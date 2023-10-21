@@ -7,3 +7,5 @@ pretrained_ckpt
 #old file
 modifyCSV.py
 datasets_tiny/
+*.pyc
+*.pyc

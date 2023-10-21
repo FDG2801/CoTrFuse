@@ -9,3 +9,4 @@ modifyCSV.py
 datasets_tiny/
 *.pyc
 *.pyc
+__pycache__/config.cpython-310.pyc

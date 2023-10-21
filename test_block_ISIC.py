@@ -13,7 +13,10 @@ def test_mertric_here(model, test_imgs, test_masks, save_name):
     test_dice, test_miou, test_Pre, test_recall, test_F1score, test_pa = 0, 0, 0, 0, 0, 0
     with torch.no_grad():
         for batch_idx, (inputs, targets) in enumerate(test_dl):
-            inputs, targets = inputs.to('cuda'), targets.to('cuda')
+            if torch.cuda.is_available():
+                inputs, targets = inputs.to('cuda'), targets.to('cuda')
+            else:
+                inputs, targets = inputs.to('cpu'), targets.to('cpu')
             out = model(inputs)
             predicted = out.argmax(1)
             test_dice += Miou.calculate_mdice(predicted, targets, 2).item()

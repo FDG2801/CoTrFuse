@@ -22,7 +22,7 @@ parser.add_argument('--img_size', type=int,
 parser.add_argument('--cfg', type=str, required=False, metavar="FILE", help='path to config file', default=
 'configs/swin_tiny_patch4_window7_224_lite.yaml')
 parser.add_argument('--num_classes', '-t', default=2, type=int, )
-parser.add_argument('--device', default='cuda', type=str, )
+parser.add_argument('--device', default='cpu', type=str, )
 parser.add_argument(
     "--opts",
     help="Modify config options by adding 'KEY VALUE' pairs. ",
@@ -62,7 +62,8 @@ print('image done')
 
 
 if __name__ == '__main__':
-    model = Vit(config, img_size=args.img_size, num_classes=args.num_classes).cuda()
+    #model = Vit(config, img_size=args.img_size, num_classes=args.num_classes).cuda()
+    model = Vit(config, img_size=args.img_size, num_classes=args.num_classes)
     dice, miou, pre, recall, f1_score, pa = test_mertric_here(model, imgs_test, masks_test, save_name)
     f = open(model_savedir + 'log1' + '.txt', "a")
     f.write('dice' + str(float(dice)) + '  _miou' + str(miou) +

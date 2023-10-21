@@ -24,8 +24,9 @@ def set_seed(seed=1):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
 
 
@@ -59,7 +60,8 @@ def fit(epoch, epochs, model, trainloader, valloader, device, criterion, optimiz
     model.eval()
     with torch.no_grad():
         for batch_idx, (imgs, masks) in enumerate(valloader):
-            imgs, masks_cuda = imgs.to('cuda'), masks.to('cuda')
+            #imgs, masks_cuda = imgs.to('cuda'), masks.to('cuda')
+            imgs, masks_cuda = imgs, masks
             imgs = imgs.float()
             masks_pred = model(imgs)
             predicted = masks_pred.argmax(1)

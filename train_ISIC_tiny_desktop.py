@@ -139,7 +139,7 @@ best_acc_final = []
 # print("mask_train ok")
 # masks_val=load_and_resize_images_efficient(val_masks,True)
 # print("masks_val ok")
-
+#Improve this function: 
 def train(model, save_name):
     model_savedir = args.checkpoint + save_name + '/'
     save_name = model_savedir + 'ckpt'
@@ -154,9 +154,11 @@ def train(model, save_name):
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     CosineLR = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-8)
 
-    train_dl = DataLoader(train_ds, shuffle=True, batch_size=args.batch_size, pin_memory=False, num_workers=0,
-                          drop_last=True, )
-    val_dl = DataLoader(val_ds, batch_size=args.batch_size, pin_memory=False, num_workers=0, )
+    # train_dl = DataLoader(train_ds, shuffle=True, batch_size=args.batch_size, pin_memory=False, num_workers=0,
+    #                       drop_last=True, )
+    # val_dl = DataLoader(val_ds, batch_size=args.batch_size, pin_memory=False, num_workers=0, )
+    train_dl = DataLoader(train_ds, shuffle=True, batch_size=16, pin_memory=False, num_workers=0, drop_last=True)
+    val_dl = DataLoader(val_ds, batch_size=16, pin_memory=False, num_workers=0)
     best_acc = 0
     print("Start inside train function")
     with tqdm(total=epochs, ncols=60) as t:

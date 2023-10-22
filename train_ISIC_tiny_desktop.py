@@ -10,7 +10,8 @@ from torch.utils.data import DataLoader
 import pandas as pd
 from fit_ISIC import fit, set_seed, write_options
 #from datasets.dataset_ISIC import Mydataset, for_train_transform, test_transform
-from datasets.new_dataset_ISIC import ISIC2017, for_train_transform, test_transform
+#from datasets.new_dataset_ISIC import ISIC2017, for_train_transform, test_transform
+from datasets.ondemandISIC import OnDemandISIC2017, for_train_transform, test_transform
 import argparse
 import warnings
 from network.CoTrFuse import SwinUnet as Vit
@@ -36,7 +37,7 @@ parser.add_argument('--labels_val_path', type=str,
 parser.add_argument('--csv_dir_val', type=str,
                     default='validation_tiny.csv',
                     help='labels val data path.')
-parser.add_argument('--batch_size', default=8, type=int, help='batchsize')
+parser.add_argument('--batch_size', default=8, type=int, help='batchsize') #BATCH SIZE
 parser.add_argument('--workers', default=16, type=int, help='batchsize')
 parser.add_argument('--lr', default=0.0001, type=float, help='learning rate')
 parser.add_argument('--start_epoch', '-s', default=0, type=int, )
@@ -146,8 +147,8 @@ def train(model, save_name):
     print(model_savedir)
     if not os.path.exists(model_savedir):
         os.mkdir(model_savedir)
-    train_ds=ISIC2017(train_csv,train_imgs, train_masks,train_transform)
-    val_ds=ISIC2017(df_val, val_imgs, val_masks,test_transform,training=False)
+    train_ds=OnDemandISIC2017(train_csv,train_imgs, train_masks,train_transform)
+    val_ds=OnDemandISIC2017(df_val, val_imgs, val_masks,test_transform,training=False)
     # train_ds = Mydataset(imgs_train, masks_train, train_transform)
     # val_ds = Mydataset(imgs_val, masks_val, test_transform)
     criterion = nn.CrossEntropyLoss()
@@ -179,6 +180,75 @@ def train(model, save_name):
             
     write_options(model_savedir, args, best_acc)
     print('Done!')
+# def train(model, save_name):
+#     model_savedir = args.checkpoint + save_name + '/'
+#     save_name = model_savedir + 'ckpt'
+#     print(model_savedir)
+#     if not os.path.exists(model_savedir):
+#         os.mkdir(model_savedir)
+#     # Create instances of OnDemandISIC2017
+#     print("train_imgs: ", train_imgs)
+#     train_dataset = OnDemandISIC2017(train_csv, train_imgs, train_masks, train_transform, training=True)
+#     val_dataset = OnDemandISIC2017(df_val, val_imgs, val_masks, test_transform, training=False)
+
+#     criterion = nn.CrossEntropyLoss()
+#     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
+#     CosineLR = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-8)
+#     # Create DataLoaders
+#     train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True, num_workers=0, pin_memory=False, drop_last=True)
+#     val_loader = DataLoader(val_dataset, batch_size=16, num_workers=0, pin_memory=False)
+#     best_acc = 0
+#     print("Start inside train function")
+#     with tqdm(total=epochs, ncols=60) as t:
+#         for epoch in range(epochs):
+#             model.train()  # Imposta il modello in modalità di addestramento
+#             epoch_loss = 0.0
+#             epoch_iou = 0.0
+
+#             for inputs, masks in train_loader:  # Usa il nuovo DataLoader personalizzato
+#                 inputs, masks = inputs.to(device), masks.to(device)
+#                 optimizer.zero_grad()
+#                 outputs = model(inputs)
+#                 loss = criterion(outputs, masks)
+#                 loss.backward()
+#                 optimizer.step()
+#                 epoch_loss += loss.item()
+
+#                 # Calcola l'IOU o altre metriche di accuracy, aggiungi a epoch_iou
+
+#             epoch_loss /= len(train_loader)
+#             epoch_iou /= len(train_loader)
+
+#             model.eval()  # Imposta il modello in modalità di valutazione
+#             epoch_val_loss = 0.0
+#             epoch_val_iou = 0.0
+
+#             with torch.no_grad():
+#                 for inputs, masks in val_loader:  # Usa il nuovo DataLoader personalizzato per la validazione
+#                     inputs, masks = inputs.to(device), masks.to(device)
+#                     outputs = model(inputs)
+#                     val_loss = criterion(outputs, masks)
+#                     epoch_val_loss += val_loss.item()
+
+#                     # Calcola l'IOU o altre metriche di accuracy per la validazione, aggiungi a epoch_val_iou
+
+#             epoch_val_loss /= len(val_loader)
+#             epoch_val_iou /= len(val_loader)
+
+#             f = open(model_savedir + 'log' + '.txt', "a")
+#             f.write('epoch' + str(float(epoch)) +
+#                     '  _train_loss' + str(epoch_loss) + '  _val_loss' + str(epoch_val_loss) +
+#                     ' _epoch_acc' + str(epoch_iou) + ' _val_iou' + str(epoch_val_iou) + '\n')
+#             if epoch_val_iou > best_acc:
+#                 f.write('\n' + 'here' + '\n')
+#                 best_model_wts = copy.deepcopy(model.state_dict())
+#                 best_acc = epoch_val_iou
+#                 torch.save(best_model_wts, ''.join([save_name, '.pth']))
+#             f.close()
+#             t.update(1)
+
+#     write_options(model_savedir, args, best_acc)
+#     print('Done!')
 
 
 if __name__ == '__main__':

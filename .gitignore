@@ -9,3 +9,4 @@ modifyCSV.py
 datasets_tiny/
 *.pyc
 *.pyc
+*.pyc

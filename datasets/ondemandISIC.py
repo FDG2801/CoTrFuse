@@ -36,11 +36,11 @@ class OnDemandISIC2017(Dataset):
         self.labels_path = [''.join([self.labels_path, '/', i.replace('.jpg', '_segmentation.png')]) for i in self.df['image_name']]
 
     def __getitem__(self, index):
-        # Il resto del tuo codice rimane invariato
+        
         img = cv2.imread(self.imgs_path[index])
         mask = cv2.imread(self.labels_path[index], cv2.IMREAD_GRAYSCALE)
         img = cv2.resize(img, (512, 512))  # Ridimensiona l'immagine
-        mask=cv2.resize(mask,(512,512))
+        mask=cv2.resize(mask,(512,512)) #img size = mask size
 
         if self.transform:
             augmented = self.transform(image=img, mask=mask)

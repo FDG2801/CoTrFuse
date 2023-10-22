@@ -722,7 +722,9 @@ class SwinTransformerSys(nn.Module):
         num_patches = self.patch_embed.num_patches
         patches_resolution = self.patch_embed.patches_resolution
         self.patches_resolution = patches_resolution
-        self.encoder = get_encoder(name='efficientnet-b3',  # encoder_name
+        #might be the model too heavy?
+        # original: efficientnet-b3
+        self.encoder = get_encoder(name='timm-mobilenetv3_small_075',  # encoder_name
                                    in_channels=3,
                                    depth=5,
                                    weights='imagenet', )

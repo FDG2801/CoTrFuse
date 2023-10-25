@@ -1,5 +1,5 @@
-torch==1.8.1
-torchvision==0.9.1
+torch>=1.8.1
+torchvision>=0.9.1
 segmentation_models_pytorch==0.2.1
 numpy
 tqdm
@@ -10,4 +10,4 @@ medpy
 SimpleITK
 scipy
 h5py
-
+torchinfo

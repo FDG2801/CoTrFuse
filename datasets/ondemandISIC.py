@@ -36,18 +36,10 @@ class OnDemandISIC2017(Dataset):
         self.labels_path = [''.join([self.labels_path, '/', i.replace('.jpg', '_segmentation.png')]) for i in self.df['image_name']]
 
     def __getitem__(self, index):
-        
-        img = cv2.imread(self.imgs_path[index])
-        mask = cv2.imread(self.labels_path[index], cv2.IMREAD_GRAYSCALE)
-        img = cv2.resize(img, (512, 512))  # Ridimensiona l'immagine
-        mask=cv2.resize(mask,(512,512)) #img size = mask size
-
-        if self.transform:
-            augmented = self.transform(image=img, mask=mask)
-            img = augmented['image']
-            mask = augmented['mask']
-
-        return img, mask
+        img=cv2.imread(self.imgs_path[index])[:,:,::-1]
+        label=cv2.imread(self.labels_path[index])[:,:,0]
+        data=self.transform(image=img,mask=label)
+        return data['image'],(data['mask']/255).long()
 
     def __len__(self):
         return len(self.df)
@@ -79,6 +71,7 @@ def for_train_transform():
     return train_transform 
 
 test_transform = A.Compose([
+    A.Resize(width=512, height=512),
     A.Normalize(
         mean=[0.485, 0.456, 0.406],
         std=[0.229, 0.224, 0.225],

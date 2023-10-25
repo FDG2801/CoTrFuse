@@ -16,6 +16,8 @@ import argparse
 import warnings
 from network.CoTrFuse import SwinUnet as Vit
 import numpy as np 
+from torchinfo import summary
+
 
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')

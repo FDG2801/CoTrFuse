@@ -48,7 +48,7 @@ parser.add_argument('--img_size', type=int,
 parser.add_argument('--cfg', type=str, required=False, metavar="FILE", help='path to config file', default=
 'configs/swin_tiny_patch4_window7_224_lite.yaml')
 parser.add_argument('--num_classes', '-t', default=2, type=int, )
-parser.add_argument('--device', default='cpu', type=str, )
+parser.add_argument('--device', default='cuda', type=str, )
 parser.add_argument(
     "--opts",
     help="Modify config options by adding 'KEY VALUE' pairs. ",
@@ -151,7 +151,10 @@ def train(model, save_name):
     val_ds=OnDemandISIC2017(df_val, val_imgs, val_masks,test_transform,training=False)
     # train_ds = Mydataset(imgs_train, masks_train, train_transform)
     # val_ds = Mydataset(imgs_val, masks_val, test_transform)
-    criterion = nn.CrossEntropyLoss()
+    if torch.cuda.is_available():
+        criterion = nn.CrossEntropyLoss().to('cuda')
+    else:
+        criterion=nn.CrossEntropyLoss()
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     CosineLR = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-8)
 

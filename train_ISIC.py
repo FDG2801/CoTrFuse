@@ -164,8 +164,10 @@ def train(model, save_name):
 
     train_ds = Mydataset(imgs_train, masks_train, train_transform)
     val_ds = Mydataset(imgs_val, masks_val, test_transform)
-
-    criterion = nn.CrossEntropyLoss().to('cuda')
+    if torch.cuda.is_available():
+        criterion = nn.CrossEntropyLoss().to('cuda')
+    else:
+        criterion=nn.CrossEntropyLoss()
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     CosineLR = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-8)
 

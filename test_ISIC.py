@@ -5,6 +5,7 @@ from config import get_config
 import argparse
 from network.CoTrFuse import SwinUnet as Vit
 from test_block_ISIC import test_mertric_here
+import torch
 
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
@@ -22,7 +23,7 @@ parser.add_argument('--img_size', type=int,
 parser.add_argument('--cfg', type=str, required=False, metavar="FILE", help='path to config file', default=
 'configs/swin_tiny_patch4_window7_224_lite.yaml')
 parser.add_argument('--num_classes', '-t', default=2, type=int, )
-parser.add_argument('--device', default='cpu', type=str, )
+parser.add_argument('--device', default='cuda', type=str, )
 parser.add_argument(
     "--opts",
     help="Modify config options by adding 'KEY VALUE' pairs. ",
@@ -62,8 +63,10 @@ print('image done')
 
 
 if __name__ == '__main__':
-    #model = Vit(config, img_size=args.img_size, num_classes=args.num_classes).cuda()
-    model = Vit(config, img_size=args.img_size, num_classes=args.num_classes)
+    if torch.cuda.is_available():
+        model = Vit(config, img_size=args.img_size, num_classes=args.num_classes).cuda()
+    else:
+        model = Vit(config, img_size=args.img_size, num_classes=args.num_classes)
     dice, miou, pre, recall, f1_score, pa = test_mertric_here(model, imgs_test, masks_test, save_name)
     f = open(model_savedir + 'log1' + '.txt', "a")
     f.write('dice' + str(float(dice)) + '  _miou' + str(miou) +

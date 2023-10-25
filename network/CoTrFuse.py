@@ -33,7 +33,7 @@ from .STCF import SCF_block, DAS_block
 from functools import partial
 
 nonlinearity = partial(F.relu, inplace=True)
-
+torch.cuda.empty_cache()
 
 class DACblock(nn.Module):
     def __init__(self, channel):

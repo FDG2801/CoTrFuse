@@ -16,7 +16,7 @@ import argparse
 import warnings
 from network.CoTrFuse import SwinUnet as Vit
 import numpy as np 
-
+torch.cuda.empty_cache()
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--imgs_train_path', type=str,
@@ -183,6 +183,7 @@ def train(model, save_name):
             
     write_options(model_savedir, args, best_acc)
     print('Done!')
+    torch.cuda.empty_cache()
 # def train(model, save_name):
 #     model_savedir = args.checkpoint + save_name + '/'
 #     save_name = model_savedir + 'ckpt'
@@ -298,12 +299,17 @@ Other train function
 
 
 if __name__ == '__main__':
+    torch.cuda.empty_cache()
     print("Starting (__main__)...")
-    model = Vit(config, img_size=args.img_size, num_classes=args.num_classes)
+    if torch.cuda.is_available():
+      model = Vit(config, img_size=args.img_size, num_classes=args.num_classes).cuda()
+    else:
+      model = Vit(config, img_size=args.img_size, num_classes=args.num_classes)
     print("Model created (vit)")
     print("Charging config file")
     model.load_from(config)
     print("Charged config file")
     print("Starting training....")
     train(model, 'CoTrFuse_ISIC')
+    torch.cuda.empty_cache()
     print("...Training over")

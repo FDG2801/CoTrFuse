@@ -23,7 +23,7 @@ import argparse
 import warnings
 from network.CoTrFuse import SwinUnet as Vit
 import numpy as np 
-from torchinfo import summary
+#from torchinfo import summary
 
 #Clear the cache
 torch.cuda.empty_cache()
@@ -172,14 +172,14 @@ if __name__ == '__main__':
     print("Main started in ISIC2017_segmentation_training.py")
     #if cuda is available, use cuda
     if torch.cuda.is_available():
-        model = Vit(config, img_size=args.img_size, num_classes=args.num_classes).cuda()
+        model = Vit(config, img_size=args.img_size, model_name=args.model_name, num_classes=args.num_classes).cuda()
     else:
-        model = Vit(config, img_size=args.img_size, num_classes=args.num_classes)
+        model = Vit(config, img_size=args.img_size, model_name=args.model_name, num_classes=args.num_classes)
     print("Model created (vit)")
     print("Charging config file")
     model.load_from(config)
     print("Summary about the model: \n")
-    summary(model,input_size=(16,3,512,512))
+    #summary(model,input_size=(16,3,512,512))
     print("Charged config file")
     save_string="CoTrFuse_ISIC_"+args.model_name
     train(model, save_string)

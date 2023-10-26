@@ -692,7 +692,7 @@ class SwinTransformerSys(nn.Module):
         use_checkpoint (bool): Whether to use checkpointing to save memory. Default: False
     """
 
-    def __init__(self, img_size=224, patch_size=4, in_chans=3, num_classes=1000,
+    def __init__(self, img_size=224, model_name="efficientnet-b3", patch_size=4, in_chans=3, num_classes=1000,
                  embed_dim=96, depths=[2, 2, 2, 2], depths_decoder=[1, 2, 2, 2], num_heads=[3, 6, 12, 24],
                  window_size=7, mlp_ratio=4., qkv_bias=True, qk_scale=None,
                  drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1,
@@ -724,10 +724,11 @@ class SwinTransformerSys(nn.Module):
         self.patches_resolution = patches_resolution
         #might be the model too heavy?
         # original: efficientnet-b3
-        self.encoder = get_encoder(name='timm-mobilenetv3_small_075',  # encoder_name
+        self.encoder = get_encoder(name=model_name,  # encoder_name
                                    in_channels=3,
                                    depth=5,
                                    weights='imagenet', )
+        print("ENCODER: ",self.encoder)
         self.encoder_channels0 = self.encoder.out_channels[2:]
         self.encoder_channels = self.encoder_channels0[::-1]
         self.decoder_channels = (256, 128, 64, 32)
@@ -902,13 +903,14 @@ class SwinTransformerSys(nn.Module):
 
 
 class SwinUnet(nn.Module):
-    def __init__(self, config, img_size=224, num_classes=21843, zero_head=False, vis=False):
+    def __init__(self, config, img_size=224, model_name="efficientnet-b3", num_classes=21843, zero_head=False, vis=False):
         super(SwinUnet, self).__init__()
         self.num_classes = num_classes
         self.zero_head = zero_head
         self.config = config
         self.img_size = img_size
-        self.swin_unet = SwinTransformerSys(img_size=self.img_size,
+        self.model_name=model_name
+        self.swin_unet = SwinTransformerSys(img_size=self.img_size,model_name=self.model_name,
                                             patch_size=config.MODEL.SWIN.PATCH_SIZE,
                                             in_chans=config.MODEL.SWIN.IN_CHANS,
                                             num_classes=self.num_classes,

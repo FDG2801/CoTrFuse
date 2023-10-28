@@ -181,6 +181,7 @@ if __name__ == '__main__':
     print("Summary about the model: \n")
     #summary(model,input_size=(16,3,512,512))
     print("Charged config file")
+    print("The encoder will be ",args.model_name)
     save_string="CoTrFuse_ISIC_"+args.model_name
     train(model, save_string)
     torch.cuda.empty_cache()

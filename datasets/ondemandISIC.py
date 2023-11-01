@@ -1,22 +1,3 @@
-# import os
-# from PIL import Image
-# import torch
-# from torch.utils.data import Dataset, DataLoader
-
-# class OnDemandISIC(Dataset):
-#     def __init__(self, data_dir):
-#         self.data_dir = data_dir
-#         self.image_paths = os.listdir(data_dir)
-
-#     def __len__(self):
-#         return len(self.image_paths)
-
-#     def __getitem__(self, idx):
-#         image_path = os.path.join(self.data_dir, self.image_paths[idx])
-#         with Image.open(image_path) as image:
-#             image = image.convert('RGB')
-#             tensor_image = torch.tensor(image)
-#         return tensor_image
 import os
 import cv2
 import pandas as pd
@@ -27,11 +8,17 @@ from albumentations.pytorch import ToTensorV2
 
 class OnDemandISIC2017(Dataset):
     def __init__(self, csv, imgs_path, labels_path, transform, training=True):
+        '''
+        csv -> csv file
+        imgs_path -> path to the images
+        labels_path -> path to the labels
+        transform -> function used for the training set to transform the images
+        '''
         self.transform = transform
         self.training = training
         self.df = pd.read_csv(csv)
         self.imgs_path,self.labels_path = imgs_path, labels_path
-        # Inizializza imgs_path e labels_path come attributi dell'oggetto
+        # Initialize imgs_path and labels_path adjusting the csv file. 
         self.imgs_path = [''.join([self.imgs_path, '/', i.replace('.jpg', '.jpg')]) for i in self.df['image_name']]
         self.labels_path = [''.join([self.labels_path, '/', i.replace('.jpg', '_segmentation.png')]) for i in self.df['image_name']]
 

@@ -23,7 +23,7 @@ import argparse
 import warnings
 from network.CoTrFuse import SwinUnet as Vit
 import numpy as np 
-#from torchinfo import summary
+from torchinfo import summary
 
 #Clear the cache
 torch.cuda.empty_cache()
@@ -179,7 +179,7 @@ if __name__ == '__main__':
     print("Charging config file")
     model.load_from(config)
     print("Summary about the model: \n")
-    #summary(model,input_size=(16,3,512,512))
+    summary(model,input_size=(16,3,512,512))
     print("Charged config file")
     print("The encoder will be ",args.model_name)
     save_string="CoTrFuse_ISIC_"+args.model_name

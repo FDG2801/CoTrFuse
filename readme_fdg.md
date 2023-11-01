@@ -20,4 +20,4 @@
 
 ## 4. Run the code
 
-    ```python train_ISIC.py``` while inside the CoTrFuse folder.
+    ```python ISIC2017_segmentation_train.py --model_name "modelname"``` while inside the CoTrFuse folder.

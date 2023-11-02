@@ -12,3 +12,5 @@ datasets_tiny/
 *.pyc
 *.pyc
 *.pyc
+checkpoint/CoTrFuse_ISIC_resnet50/10 epochs/ckpt.pth
+checkpoint/CoTrFuse_ISIC_efficientnet-b0/10 epochs/ckpt.pth

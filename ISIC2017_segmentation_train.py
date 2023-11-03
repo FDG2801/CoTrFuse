@@ -176,6 +176,7 @@ def train(model, save_name):
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.grid(True)
+    plt.savefig(save_name, dpi=100)
     plt.show()
     #write the file and close
     write_options(model_savedir, args, best_acc)

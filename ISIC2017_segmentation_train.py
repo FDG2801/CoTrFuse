@@ -25,6 +25,10 @@ from network.CoTrFuse import SwinUnet as Vit
 import numpy as np 
 from torchinfo import summary
 
+#Plotting ------------------------- not in the original code
+import matplotlib.pyplot as plt
+
+
 #Clear the cache
 torch.cuda.empty_cache()
 
@@ -146,6 +150,8 @@ def train(model, save_name):
     train_dl = DataLoader(train_ds, shuffle=True, batch_size=args.batch_size, pin_memory=False, num_workers=0, drop_last=True)
     val_dl = DataLoader(val_ds, batch_size=args.batch_size, pin_memory=False, num_workers=0)
     best_acc = 0
+    #to plot for the accuracy ------------------------- not in the original code
+    accuracies = []
     print("Training is about to start...")
     with tqdm(total=epochs, ncols=60) as t:
         for epoch in range(epochs):
@@ -160,8 +166,17 @@ def train(model, save_name):
                 best_model_wts = copy.deepcopy(model.state_dict())
                 best_acc = epoch_val_iou
                 torch.save(best_model_wts, ''.join([save_name, '.pth']))
+            accuracies.append(epoch_val_iou)
             f.close()
             t.update(1)
+    #Plotting the graphs ------------------------- not in the original code
+    plt.figure()
+    plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-')
+    plt.title('Accuracy over Epochs')
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.grid(True)
+    plt.show()
     #write the file and close
     write_options(model_savedir, args, best_acc)
     print('Training over')

@@ -152,6 +152,9 @@ def train(model, save_name):
     best_acc = 0
     #to plot for the accuracy ------------------------- not in the original code
     accuracies = []
+    train_losses = []
+    val_losses = []
+    epoch_accuracies=[]
     print("Training is about to start...")
     with tqdm(total=epochs, ncols=60) as t:
         for epoch in range(epochs):
@@ -167,16 +170,38 @@ def train(model, save_name):
                 best_acc = epoch_val_iou
                 torch.save(best_model_wts, ''.join([save_name, '.pth']))
             accuracies.append(epoch_val_iou)
+            train_losses.append(epoch_loss)
+            train_losses.append(epoch_val_loss)
+            epoch_accuracies.append(epoch_iou)
             f.close()
             t.update(1)
     #Plotting the graphs ------------------------- not in the original code
-    plt.figure()
+    # IoU
+    plt.figure(figsize=(8, 4))
     plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-')
     plt.title('Accuracy over Epochs')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.grid(True)
-    plt.savefig(save_name, dpi=100)
+    plt.savefig(save_name+"_iou.png")
+    plt.show()
+    # losses
+    plt.figure(figsize=(8, 4))
+    plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-')
+    plt.plot(epochs, train_losses, label='Train Loss', marker='o')
+    plt.plot(epochs, train_losses, label='Validation Loss', marker='o')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.savefig(save_name+"_losses.png")
+    plt.show()
+    # epoch accuracies
+    plt.figure(figsize=(8, 4))
+    plt.plot(epochs, epoch_accuracies, label='Epoch Accuracy', marker='o')
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.title('Epoch Accuracy - ResNet50 Epochs')
+    plt.savefig(save_name+"_epoch_accuracies.png")
     plt.show()
     #write the file and close
     write_options(model_savedir, args, best_acc)

@@ -179,7 +179,7 @@ def train(model, save_name):
     # IoU
     plt.figure(figsize=(8, 4))
     plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-')
-    plt.title('Accuracy over Epochs')
+    plt.title('Accuracy over Epochs'+ args.model_name)
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.grid(True)
@@ -193,6 +193,7 @@ def train(model, save_name):
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend()
+    plt.title('Train and Validation Loss '+args.model_name)
     plt.savefig(save_name+"_losses.png")
     plt.show()
     # epoch accuracies
@@ -200,7 +201,7 @@ def train(model, save_name):
     plt.plot(epochs, epoch_accuracies, label='Epoch Accuracy', marker='o')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
-    plt.title('Epoch Accuracy - ResNet50 Epochs')
+    plt.title('Epoch Accuracy - ResNet50 Epochs '+ args.model_name)
     plt.savefig(save_name+"_epoch_accuracies.png")
     plt.show()
     #write the file and close

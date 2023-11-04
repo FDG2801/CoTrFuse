@@ -176,6 +176,7 @@ def train(model, save_name):
             f.close()
             t.update(1)
     #Plotting the graphs ------------------------- not in the original code
+    # ----------------------------------------------------------------------------------    
     # IoU
     plt.figure(figsize=(8, 4))
     plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-')
@@ -204,6 +205,7 @@ def train(model, save_name):
     plt.title('Epoch Accuracy - ResNet50 Epochs '+ args.model_name)
     plt.savefig(save_name+"_epoch_accuracies.png")
     plt.show()
+    # ----------------------------------------------------------------------------------
     #write the file and close
     write_options(model_savedir, args, best_acc)
     print('Training over')

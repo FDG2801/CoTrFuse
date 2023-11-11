@@ -173,6 +173,16 @@ def train(model, save_name):
             train_losses.append(epoch_loss)
             train_losses.append(epoch_val_loss)
             epoch_accuracies.append(epoch_iou)
+            # Calculate average values
+            avg_epoch_loss = sum(train_losses) / len(train_losses)
+            avg_epoch_iou = sum(epoch_accuracies) / len(epoch_accuracies)
+            avg_epoch_val_loss = sum(val_losses) / len(val_losses)
+            avg_epoch_val_iou = sum(accuracies) / len(accuracies)
+            f.write('\nAverage Values:\n')
+            f.write('Average Train Loss: {}\n'.format(avg_epoch_loss))
+            f.write('Average Train IoU: {}\n'.format(avg_epoch_iou))
+            f.write('Average Validation Loss: {}\n'.format(avg_epoch_val_loss))
+            f.write('Average Validation IoU: {}\n'.format(avg_epoch_val_iou))
             f.close()
             t.update(1)
     #Plotting the graphs ------------------------- not in the original code

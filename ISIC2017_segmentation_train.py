@@ -173,16 +173,7 @@ def train(model, save_name):
             train_losses.append(epoch_loss)
             train_losses.append(epoch_val_loss)
             epoch_accuracies.append(epoch_iou)
-            # Calculate average values
-            avg_epoch_loss = sum(train_losses) / len(train_losses)
-            avg_epoch_iou = sum(epoch_accuracies) / len(epoch_accuracies)
-            avg_epoch_val_loss = sum(val_losses) / len(val_losses)
-            avg_epoch_val_iou = sum(accuracies) / len(accuracies)
-            f.write('\nAverage Values:\n')
-            f.write('Average Train Loss: {}\n'.format(avg_epoch_loss))
-            f.write('Average Train IoU: {}\n'.format(avg_epoch_iou))
-            f.write('Average Validation Loss: {}\n'.format(avg_epoch_val_loss))
-            f.write('Average Validation IoU: {}\n'.format(avg_epoch_val_iou))
+            
             f.close()
             t.update(1)
     #Plotting the graphs ------------------------- not in the original code
@@ -215,6 +206,15 @@ def train(model, save_name):
     plt.title('Epoch Accuracy - ResNet50 Epochs '+ args.model_name)
     plt.savefig(save_name+"_epoch_accuracies.png")
     plt.show()
+    # Calculate average values
+    avg_epoch_loss = sum(train_losses) / len(train_losses)
+    avg_epoch_iou = sum(epoch_accuracies) / len(epoch_accuracies)
+    avg_epoch_val_loss = sum(val_losses) / len(val_losses)
+    avg_epoch_val_iou = sum(accuracies) / len(accuracies)
+    print("Average Train Loss:", avg_epoch_loss)
+    print("Average Train IoU:", avg_epoch_iou)
+    print("Average Validation Loss:", avg_epoch_val_loss)
+    print("Average Validation IoU:", avg_epoch_val_iou)
     # ----------------------------------------------------------------------------------
     #write the file and close
     write_options(model_savedir, args, best_acc)

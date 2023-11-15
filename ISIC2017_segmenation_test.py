@@ -11,17 +11,17 @@ warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--imgs_test_path', type=str,
                     default='/content/drive/MyDrive/cotrfuse_drive/test',
-                    help='imgs val data path.')
+                    help='imgs test data path.')
 parser.add_argument('--labels_test_path', type=str,
-                    default='/content/drive/MyDrive/cotrfuse_drive/validation',
-                    help='labels val data path.')
+                    default='/content/drive/MyDrive/cotrfuse_drive/test/gt',
+                    help='labels test data path.')
 parser.add_argument('--csv_dir_test', type=str,
-                    default='/content/drive/MyDrive/cotrfuse_drive/validation/gt',
-                    help='labels val data path.')
+                    default='/content/test_mod.csv',
+                    help='labels test data path.')
 parser.add_argument('--img_size', type=int,
                     default=512, help='input patch size of network input')
 parser.add_argument('--cfg', type=str, required=False, metavar="FILE", help='path to config file', default=
-'configs/swin_tiny_patch4_window7_224_lite.yaml')
+'/content/CoTrFuse/configs/swin_tiny_patch4_window7_224_lite.yaml')
 parser.add_argument('--num_classes', '-t', default=2, type=int, )
 parser.add_argument('--device', default='cuda', type=str, )
 parser.add_argument(
@@ -30,6 +30,7 @@ parser.add_argument(
     default=None,
     nargs='+',
 )
+parser.add_argument('--batch_size', default=8, type=int, help='batchsize') #8
 parser.add_argument('--zip', action='store_true', help='use zipped dataset instead of folder dataset')
 parser.add_argument('--cache-mode', type=str, default='part', choices=['no', 'full', 'part'],
                     help='no: no cache, '
@@ -44,8 +45,8 @@ parser.add_argument('--amp-opt-level', type=str, default='O1', choices=['O0', 'O
 parser.add_argument('--tag', help='tag of experiment')
 parser.add_argument('--eval', action='store_true', help='Perform evaluation only')
 parser.add_argument('--throughput', action='store_true', help='Test throughput only')
-parser.add_argument('--checkpoint', type=str, default='checkpoint/', )
-parser.add_argument('--save_name', type=str, default='CoTrFuse/ISIC', )
+parser.add_argument('--checkpoint', type=str, default='/content/CoTrFuse/checkpoint', )
+parser.add_argument('--save_name', type=str, default='/content/CoTrFuse/checkpoint/CoTrFuse_ISIC_efficientnet-b0_colaboratory', )
 args = parser.parse_args()
 config = get_config(args)
 

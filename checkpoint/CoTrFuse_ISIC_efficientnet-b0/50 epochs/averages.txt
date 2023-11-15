@@ -2,3 +2,12 @@ Media di Train Loss: 0.01488287658750275
 Media di Validation Loss: 0.023325628377497198
 Media di Epoch Accuracy: 0.8879059365366853
 Media di Validation IoU: 0.764522008044878
+
+Highest train loss value:  0.04553218277884118 
+Lowest train loss value:  0.010674240890844369 
+Highest val loss value:  0.032176692970097065 
+Lowest val loss value:  0.018923594267107546 
+Highest epoch accuracy value:  0.9123346371203661 
+Lowest epoch accuracy value:  0.7408652389980852 
+Highest val_iou value:  0.788585844944464 
+Lowest val_iou value:  0.6907760676112957

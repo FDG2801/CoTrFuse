@@ -1,4 +1,0 @@
-Media di Train Loss: 0.01435432321237929
-Media di Validation Loss: 0.019675124078639784
-Media di Epoch Accuracy: 0.8909254837025301
-Media di Validation IoU: 0.7819417859101325

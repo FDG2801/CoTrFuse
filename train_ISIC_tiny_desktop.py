@@ -16,6 +16,9 @@ import argparse
 import warnings
 from network.CoTrFuse import SwinUnet as Vit
 import numpy as np 
+import ssl
+
+ssl._create_default_https_context = ssl._create_stdlib_context
 torch.cuda.empty_cache()
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')

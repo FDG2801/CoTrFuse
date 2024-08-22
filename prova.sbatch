@@ -10,3 +10,7 @@
 ###### 1 Load the module
 module load nvidia/cudasdk/10.1
 module load intel/python/3
+# 2 Activate the virtual environment
+source thesis/bin/activate
+# 3 Run the python script
+python train_ISIC_tiny_desktop.py

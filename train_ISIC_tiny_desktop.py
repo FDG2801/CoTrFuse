@@ -29,7 +29,7 @@ parser.add_argument('--labels_train_path', type=str,
                     default='datasets_tiny/training/gt',
                     help='labels train data path.')
 parser.add_argument('--csv_dir_train', type=str,
-                    default='training_tiny.csv',
+                    default='training_tiny_test.csv',
                     help='labels train data path.')
 parser.add_argument('--imgs_val_path', type=str,
                     default='datasets_tiny/validation',
@@ -38,7 +38,7 @@ parser.add_argument('--labels_val_path', type=str,
                     default='datasets_tiny/validation/gt',
                     help='labels val data path.')
 parser.add_argument('--csv_dir_val', type=str,
-                    default='validation_tiny.csv',
+                    default='validation_tiny_test.csv',
                     help='labels val data path.')
 parser.add_argument('--batch_size', default=8, type=int, help='batchsize') #BATCH SIZE
 parser.add_argument('--workers', default=16, type=int, help='batchsize')

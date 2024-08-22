@@ -44,7 +44,7 @@ parser.add_argument('--end_epoch', '-e', default=5, type=int, )
 parser.add_argument('--img_size', type=int,
                     default=512, help='input patch size of network input')
 parser.add_argument('--cfg', type=str, required=False, metavar="FILE", help='path to config file', default=
-'/content/CoTrFuse/configs/swin_tiny_patch4_window7_224_lite.yaml')
+'/configs/swin_tiny_patch4_window7_224_lite.yaml') #/content/ removed
 parser.add_argument('--num_classes', '-t', default=2, type=int, )
 parser.add_argument('--device', default='cpu', type=str, )
 parser.add_argument(
@@ -67,7 +67,7 @@ parser.add_argument('--amp-opt-level', type=str, default='O1', choices=['O0', 'O
 parser.add_argument('--tag', help='tag of experiment')
 parser.add_argument('--eval', action='store_true', help='Perform evaluation only')
 parser.add_argument('--throughput', action='store_true', help='Test throughput only')
-parser.add_argument('--checkpoint', type=str, default='/content/CoTrFuse/checkpoint', )
+parser.add_argument('--checkpoint', type=str, default='/checkpoint', ) #/content/ removed
 args = parser.parse_args()
 config = get_config(args)
 

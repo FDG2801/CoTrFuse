@@ -16,7 +16,7 @@ parser.add_argument('--labels_test_path', type=str,
                     default='/content/drive/MyDrive/cotrfuse_drive/test/gt',
                     help='labels test data path.')
 parser.add_argument('--csv_dir_test', type=str,
-                    default='/content/test_mod.csv',
+                    default='/content/CoTrFuse/test_mod.csv',
                     help='labels test data path.')
 parser.add_argument('--img_size', type=int,
                     default=512, help='input patch size of network input')
@@ -45,8 +45,8 @@ parser.add_argument('--amp-opt-level', type=str, default='O1', choices=['O0', 'O
 parser.add_argument('--tag', help='tag of experiment')
 parser.add_argument('--eval', action='store_true', help='Perform evaluation only')
 parser.add_argument('--throughput', action='store_true', help='Test throughput only')
-parser.add_argument('--checkpoint', type=str, default='/content/CoTrFuse/checkpoint', )
-parser.add_argument('--save_name', type=str, default='/content/CoTrFuse/checkpoint/CoTrFuse_ISIC_efficientnet-b0_colaboratory', )
+parser.add_argument('--checkpoint', type=str, default='/content/drive/MyDrive/cotrfuse_drive', )
+parser.add_argument('--save_name', type=str, default='/efficientnet50epochs', )
 args = parser.parse_args()
 config = get_config(args)
 
@@ -55,7 +55,7 @@ save_name = model_savedir + 'ckpt'
 
 df_test = pd.read_csv(args.csv_dir_test)
 test_imgs, test_masks = args.imgs_test_path, args.labels_test_path
-test_imgs = [''.join([test_imgs, '/', i.replace('.png', '.png')]) for i in df_test['image_name']]
+test_imgs = [''.join([test_imgs, '/', i.replace('.jpg', '.jpg')]) for i in df_test['image_name']]
 test_masks = [''.join([test_masks, '/', i.replace('.jpg', '_segmentation.png')]) for i in df_test['image_name']]
 imgs_test = [cv2.imread(i)[:, :, ::-1] for i in test_imgs]
 masks_test = [cv2.imread(i)[:, :, 0] for i in test_masks]

@@ -16,4 +16,4 @@ module load intel/python/3/2019.4.088
 source miniconda3/bin/activate
 conda activate condaenv
 # 3 Run the python script
-python CoTrFuse/train_ISIC_tiny_desktop.py
+python train_ISIC_tiny_desktop.py

@@ -45,7 +45,7 @@ parser.add_argument('--labels_train_path', type=str,
                     default='datasets_tiny/training/gt',
                     help='labels train data path - ground truth.')
 parser.add_argument('--csv_dir_train', type=str,
-                    default='/training_tiny.csv',
+                    default='training_tiny_test.csv',
                     help='labels train data path.')
 parser.add_argument('--imgs_val_path', type=str,
                     default='datasets_tiny/validation',
@@ -54,7 +54,7 @@ parser.add_argument('--labels_val_path', type=str,
                     default='datasets_tiny/validation/gt',
                     help='labels val data path - ground truth.')
 parser.add_argument('--csv_dir_val', type=str,
-                    default='validation_tiny.csv',
+                    default='validation_tiny_test.csv',
                     help='labels val data path.')
 
 #Settings (batch size, workers, learning rate, epochs, num classes, yaml file, device)
@@ -95,7 +95,7 @@ parser.add_argument('--throughput', action='store_true', help='Test throughput o
 parser.add_argument('--checkpoint', type=str, default='checkpoint/', )
 
 #Name of the tested model
-parser.add_argument('--model_name', type=str, default='resnet50', choices=['resnet50','efficientnet-b3'],
+parser.add_argument('--model_name', type=str, default='resnet50', choices=['resnet50','efficientnet-b3','efficientnet-b0'],
                     help='mixed precision opt level, if O0, no amp is used')
 '''
 Please to understand which model you can use, refer to this github page
@@ -172,7 +172,7 @@ def train(model, save_name):
                 torch.save(best_model_wts, ''.join([save_name, '.pth']))
             accuracies.append(epoch_val_iou)
             train_losses.append(epoch_loss)
-            train_losses.append(epoch_val_loss)
+            val_losses.append(epoch_val_loss)
             epoch_accuracies.append(epoch_iou)
             
             f.close()
@@ -182,7 +182,7 @@ def train(model, save_name):
     # IoU
     plt.figure(figsize=(8, 4))
     plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-')
-    plt.title('Accuracy over Epochs'+ args.model_name)
+    plt.title('Accuracy over Epochs '+ args.model_name)
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.grid(True)
@@ -190,9 +190,9 @@ def train(model, save_name):
     plt.show()
     # losses
     plt.figure(figsize=(8, 4))
-    plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-')
-    plt.plot(epochs, train_losses, label='Train Loss', marker='o')
-    plt.plot(epochs, train_losses, label='Validation Loss', marker='o')
+    #plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-')
+    plt.plot(range(1, epochs + 1), train_losses, label='Train Loss', marker='o')
+    plt.plot(range(1, epochs + 1), val_losses, label='Validation Loss', marker='o')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend()
@@ -201,10 +201,10 @@ def train(model, save_name):
     plt.show()
     # epoch accuracies
     plt.figure(figsize=(8, 4))
-    plt.plot(epochs, epoch_accuracies, label='Epoch Accuracy', marker='o')
+    plt.plot(range(1, epochs + 1), epoch_accuracies, label='Epoch Accuracy ', marker='o')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
-    plt.title('Epoch Accuracy - ResNet50 Epochs '+ args.model_name)
+    plt.title('Epoch Accuracy - Epochs '+ args.model_name)
     plt.savefig(save_name+"_epoch_accuracies.png")
     plt.show()
     # Calculate average values
@@ -227,7 +227,7 @@ if __name__ == '__main__':
     print("Main started in ISIC2017_segmentation_training.py")
     #if cuda is available, use cuda
     if torch.cuda.is_available():
-        model = Vit(config,model_name=args.model_name, img_size=args.img_size, model_name=args.model_name, num_classes=args.num_classes).cuda()
+        model = Vit(config,model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes).cuda()
     else:
         model = Vit(config,model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes)
     print("Model created (vit)")

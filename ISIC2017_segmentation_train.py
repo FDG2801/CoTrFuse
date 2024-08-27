@@ -95,11 +95,12 @@ parser.add_argument('--throughput', action='store_true', help='Test throughput o
 parser.add_argument('--checkpoint', type=str, default='checkpoint/', )
 
 #Name of the tested model
+parser.add_argument('--model_name', type=str, default='resnet50', choices=['resnet50','efficientnet-b3'],
+                    help='mixed precision opt level, if O0, no amp is used')
 '''
 Please to understand which model you can use, refer to this github page
 https://github.com/qubvel/segmentation_models.pytorch
 '''
-parser.add_argument('--model_name', type=str, default="efficientnet-b3", )
 
 #Train starts
 print("Starting preliminary training operations...")
@@ -226,9 +227,9 @@ if __name__ == '__main__':
     print("Main started in ISIC2017_segmentation_training.py")
     #if cuda is available, use cuda
     if torch.cuda.is_available():
-        model = Vit(config, img_size=args.img_size, model_name=args.model_name, num_classes=args.num_classes).cuda()
+        model = Vit(config,model_name=args.model_name, img_size=args.img_size, model_name=args.model_name, num_classes=args.num_classes).cuda()
     else:
-        model = Vit(config, img_size=args.img_size, model_name=args.model_name, num_classes=args.num_classes)
+        model = Vit(config,model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes)
     print("Model created (vit)")
     print("Charging config file")
     model.load_from(config)
@@ -236,7 +237,9 @@ if __name__ == '__main__':
     summary(model,input_size=(16,3,512,512))
     print("Charged config file")
     print("The encoder will be ",args.model_name)
-    save_string="CoTrFuse_ISIC_"+args.model_name
+    from datetime import date
+    today=date.today()
+    save_string="CoTrFuse_ISIC_{args.model_name}_{today}"
     train(model, save_string)
     torch.cuda.empty_cache()
     print("Task completed.")

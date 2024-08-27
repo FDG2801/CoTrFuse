@@ -239,7 +239,9 @@ if __name__ == '__main__':
     print("The encoder will be ",args.model_name)
     from datetime import date
     today=date.today()
-    save_string="CoTrFuse_ISIC_{args.model_name}_{today}"
+    str_today=str(today)
+    str_model_name=str(args.model_name)
+    save_string="CoTrFuse_ISIC_"+str_today+"_"+str_model_name
     train(model, save_string)
     torch.cuda.empty_cache()
     print("Task completed.")

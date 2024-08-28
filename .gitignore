@@ -2,6 +2,7 @@
 #datasets
 datasets/covid_dataset
 datasets/isic2017
+datasets/isic2018
 #pht 
 pretrained_ckpt
 #old file

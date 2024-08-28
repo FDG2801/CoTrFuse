@@ -10,13 +10,13 @@ import torch
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--imgs_test_path', type=str,
-                    default='test',
+                    default='datasets_tiny/test',
                     help='imgs test data path.')
 parser.add_argument('--labels_test_path', type=str,
-                    default='test/gt',
+                    default='datasets_tiny/test/gt',
                     help='labels test data path.')
 parser.add_argument('--csv_dir_test', type=str,
-                    default='test_mod.csv',
+                    default='test_tiny_test.csv',
                     help='labels test data path.')
 parser.add_argument('--img_size', type=int,
                     default=512, help='input patch size of network input')

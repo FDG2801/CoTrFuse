@@ -32,10 +32,10 @@ import matplotlib.pyplot as plt
 #Clear the cache
 torch.cuda.empty_cache()
 
-#Parser
-#Paths are set to the Google Drive paths (Francesco Di Gangi's Google Drive)
+#---------------------------------------------- Parser -----------------------------------------------------
 
 #Directories
+#----------------------------------------------
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--imgs_train_path', type=str,
@@ -56,8 +56,10 @@ parser.add_argument('--labels_val_path', type=str,
 parser.add_argument('--csv_dir_val', type=str,
                     default='validation_tiny_test.csv',
                     help='labels val data path.')
+#----------------------------------------------
 
 #Settings (batch size, workers, learning rate, epochs, num classes, yaml file, device)
+#----------------------------------------------
 parser.add_argument('--batch_size', default=8, type=int, help='batchsize') #BATCH SIZE
 parser.add_argument('--workers', default=16, type=int, help='batchsize')
 parser.add_argument('--lr', default=0.0001, type=float, help='learning rate')
@@ -76,8 +78,10 @@ parser.add_argument(
     default=None,
     nargs='+',
 )
+#----------------------------------------------
 
 #Other options (zip, cache, resume, accumulations chekpoint, optimization)
+#----------------------------------------------
 parser.add_argument('--zip', action='store_true', help='use zipped dataset instead of folder dataset')
 parser.add_argument('--cache-mode', type=str, default='part', choices=['no', 'full', 'part'],
                     help='no: no cache, '
@@ -93,14 +97,17 @@ parser.add_argument('--tag', help='tag of experiment')
 parser.add_argument('--eval', action='store_true', help='Perform evaluation only')
 parser.add_argument('--throughput', action='store_true', help='Test throughput only')
 parser.add_argument('--checkpoint', type=str, default='checkpoint/', )
+#----------------------------------------------
 
 #Name of the tested model
+#----------------------------------------------
 parser.add_argument('--model_name', type=str, default='resnet50', choices=['resnet50','efficientnet-b3','efficientnet-b0'],
                     help='mixed precision opt level, if O0, no amp is used')
 '''
 Please to understand which model you can use, refer to this github page
 https://github.com/qubvel/segmentation_models.pytorch
 '''
+#----------------------------------------------
 
 #Train starts
 print("Starting preliminary training operations...")

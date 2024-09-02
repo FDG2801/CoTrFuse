@@ -9,11 +9,11 @@
 
 ###### 1 Load the module
 module load nvidia/cudasdk/11.6
-module load intel/python/3/2019.4.088
+######module load intel/python/3/2019.4.088
 # 2 Activate the virtual environment
 #source thesis/bin/activate
 # CONDA
-source miniconda3/bin/activate
+source ~/.bashrc
 conda activate condaenv
 # 3 Run the python script
 python train_ISIC_tiny_desktop.py

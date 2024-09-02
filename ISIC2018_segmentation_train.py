@@ -45,7 +45,7 @@ parser.add_argument('--labels_train_path', type=str,
                     default='datasets/isic2017/training/gt',
                     help='labels train data path - ground truth.')
 parser.add_argument('--csv_dir_train', type=str,
-                    default='training_isic2017_completo.csv',
+                    default='training_tiny_test.csv',
                     help='labels train data path.')
 parser.add_argument('--imgs_val_path', type=str,
                     default='datasets/isic2017/validation',
@@ -54,7 +54,7 @@ parser.add_argument('--labels_val_path', type=str,
                     default='datasets/isic2017/validation/gt',
                     help='labels val data path - ground truth.')
 parser.add_argument('--csv_dir_val', type=str,
-                    default='validation_isic2017_completo.csv',
+                    default='validation_tiny_test.csv',
                     help='labels val data path.')
 #----------------------------------------------
 

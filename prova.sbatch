@@ -1,8 +1,11 @@
 #!/bin/bash
-#SBATCH --time=00:20:00
+
+#SBATCH --job-name=<CoTrFuse_ISIC2017>
+#SBATCH --time=05:00:00
+#SBATCH --nodes=2                   # number of nodes
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:2
 #SBATCH --job-name=python-ex
 #SBATCH --mail-type=ALL
 #SBATCH --partition=cuda

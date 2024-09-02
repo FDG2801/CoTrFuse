@@ -16,4 +16,4 @@ module load nvidia/cudasdk/11.6
 source ~/.bashrc
 conda activate condaenv
 # 3 Run the python script
-python train_ISIC_tiny_desktop.py
+python ISIC2017_segmentation_train.py

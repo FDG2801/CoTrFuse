@@ -39,22 +39,22 @@ torch.cuda.empty_cache()
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--imgs_train_path', type=str,
-                    default='datasets/isic2017/training',
+                    default='datasets/isic2018/training',
                     help='imgs train data path.')
 parser.add_argument('--labels_train_path', type=str,
-                    default='datasets/isic2017/training/gt',
+                    default='datasets/isic2018/training/gt',
                     help='labels train data path - ground truth.')
 parser.add_argument('--csv_dir_train', type=str,
-                    default='training_tiny_test.csv',
+                    default='training_isic2018_completo.csv',
                     help='labels train data path.')
 parser.add_argument('--imgs_val_path', type=str,
-                    default='datasets/isic2017/validation',
+                    default='datasets/isic2018/validation',
                     help='imgs val data path.')
 parser.add_argument('--labels_val_path', type=str,
-                    default='datasets/isic2017/validation/gt',
+                    default='datasets/isic2018/validation/gt',
                     help='labels val data path - ground truth.')
 parser.add_argument('--csv_dir_val', type=str,
-                    default='validation_tiny_test.csv',
+                    default='validation_isic2018_completo.csv',
                     help='labels val data path.')
 #----------------------------------------------
 

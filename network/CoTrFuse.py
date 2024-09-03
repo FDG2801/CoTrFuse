@@ -463,6 +463,22 @@ class PatchExpand(nn.Module):
         self.expand = nn.Linear(dim, 2 * dim, bias=False) if dim_scale == 2 else nn.Identity()
         self.norm = norm_layer(dim // dim_scale)
 
+    # def forward(self, x):
+    #     """
+    #     x: B, H*W, C
+    #     """
+    #     H, W = self.input_resolution
+    #     x = self.expand(x)
+    #     B, L, C = x.shape
+    #     assert L == H * W, "input feature has wrong size"
+
+    #     x = x.view(B, H, W, C)
+    #     x = rearrange(x, 'b h w (p1 p2 c)-> b (h p1) (w p2) c', p1=2, p2=2, c=C // 4)
+    #     x = x.view(B, -1, C // 4)
+    #     x = self.norm(x)
+
+    #     return x
+    ##NUMPY
     def forward(self, x):
         """
         x: B, H*W, C
@@ -473,8 +489,15 @@ class PatchExpand(nn.Module):
         assert L == H * W, "input feature has wrong size"
 
         x = x.view(B, H, W, C)
-        x = rearrange(x, 'b h w (p1 p2 c)-> b (h p1) (w p2) c', p1=2, p2=2, c=C // 4)
-        x = x.view(B, -1, C // 4)
+
+        # Reshape the channel dimension
+        x_reshaped = x.reshape(B, H, W, 2, 2, C // 4)
+
+        # Transpose the dimensions
+        x_transposed = np.transpose(x_reshaped, (0, 1, 3, 2, 4, 5))
+
+        # Reshape to the desired output shape
+        x = x_transposed.reshape(B, -1, C // 4)
         x = self.norm(x)
 
         return x
@@ -490,6 +513,24 @@ class FinalPatchExpand_X4(nn.Module):
         self.output_dim = dim
         self.norm = norm_layer(self.output_dim)
 
+    # def forward(self, x):
+    #     """
+    #     x: B, H*W, C
+    #     """
+    #     H, W = self.input_resolution
+    #     x = self.expand(x)
+    #     B, L, C = x.shape
+    #     assert L == H * W, "input feature has wrong size"
+
+    #     x = x.view(B, H, W, C)
+    #     x = rearrange(x, 'b h w (p1 p2 c)-> b (h p1) (w p2) c', p1=self.dim_scale, p2=self.dim_scale,
+    #                   c=C // (self.dim_scale ** 2))
+    #     x = x.view(B, -1, self.output_dim)
+    #     x = self.norm(x)
+
+    #     return x
+    ## USING NUMPY
+    ## Numpy invece di einops
     def forward(self, x):
         """
         x: B, H*W, C
@@ -500,9 +541,16 @@ class FinalPatchExpand_X4(nn.Module):
         assert L == H * W, "input feature has wrong size"
 
         x = x.view(B, H, W, C)
-        x = rearrange(x, 'b h w (p1 p2 c)-> b (h p1) (w p2) c', p1=self.dim_scale, p2=self.dim_scale,
-                      c=C // (self.dim_scale ** 2))
-        x = x.view(B, -1, self.output_dim)
+
+
+        # Reshape the channel dimension
+        x_reshaped = x.reshape(B, H, W, self.dim_scale, self.dim_scale, C // (self.dim_scale ** 2))
+
+        # Transpose the dimensions
+        x_transposed = np.transpose(x_reshaped, (0, 1, 3, 2, 4, 5))
+
+        # Reshape to the desired output shape
+        x = x_transposed.reshape(B, -1, self.output_dim)
         x = self.norm(x)
 
         return x

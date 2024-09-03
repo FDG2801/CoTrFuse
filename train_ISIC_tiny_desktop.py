@@ -45,7 +45,7 @@ parser.add_argument('--workers', default=16, type=int, help='batchsize')
 parser.add_argument('--lr', default=0.0001, type=float, help='learning rate')
 parser.add_argument('--start_epoch', '-s', default=0, type=int, )
 parser.add_argument('--warm_epoch', '-w', default=0, type=int, )
-parser.add_argument('--end_epoch', '-e', default=50, type=int, )
+parser.add_argument('--end_epoch', '-e', default=25, type=int, )
 parser.add_argument('--img_size', type=int,
                     default=512, help='input patch size of network input')
 parser.add_argument('--cfg', type=str, required=False, metavar="FILE", help='path to config file', default=

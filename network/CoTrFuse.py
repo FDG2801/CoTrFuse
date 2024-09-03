@@ -25,7 +25,7 @@ import torch.nn.functional as F
 import torch
 # import torch.nn as nn
 import torch.utils.checkpoint as checkpoint
-from einops import rearrange
+#from einops import rearrange
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 from segmentation_models_pytorch.unet.decoder import DecoderBlock, CenterBlock
 from segmentation_models_pytorch.base import SegmentationHead

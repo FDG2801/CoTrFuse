@@ -11,3 +11,8 @@ SimpleITK
 scipy
 h5py
 torchinfo
+pandas
+yacs
+albumentations
+einops
+opencv-python

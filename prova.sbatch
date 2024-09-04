@@ -17,6 +17,6 @@ module load nvidia/cudasdk/11.6
 #source thesis/bin/activate
 # CONDA
 source ~/.bashrc
-conda activate condaenv
+conda activate condapip
 # 3 Run the python script
 python ISIC2017_segmentation_train.py

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --job-name=<CoTrFuse_ISIC2017>
-#SBATCH --time=05:00:00
+#SBATCH --time=10:00:00
 #SBATCH --nodes=1                   # number of nodes
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8

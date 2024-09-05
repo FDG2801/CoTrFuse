@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=<CoTrFuse_ISIC2017>
+#SBATCH --job-name=<CoTrFuse_ISIC2018>
 #SBATCH --time=10:00:00
 #SBATCH --nodes=1                   # number of nodes
 #SBATCH --ntasks=1

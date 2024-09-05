@@ -11,7 +11,7 @@
 #SBATCH --partition=cuda
 
 ###### 1 Load the module
-module load nvidia/cudasdk/11.8_test
+module load nvidia/cudasdk/11.6
 ######module load intel/python/3/2019.4.088
 # 2 Activate the virtual environment
 #source thesis/bin/activate

@@ -16,3 +16,4 @@ yacs
 albumentations
 einops
 opencv-python
+matplotlib

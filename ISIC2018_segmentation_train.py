@@ -231,7 +231,7 @@ def train(model, save_name):
     torch.cuda.empty_cache()
 
 if __name__ == '__main__':
-    print("Main started in ISIC2017_segmentation_training.py")
+    print("Main started in ISIC2018_segmentation_training.py")
     #if cuda is available, use cuda
     if torch.cuda.is_available():
         model = Vit(config,model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes).cuda()
@@ -248,7 +248,7 @@ if __name__ == '__main__':
     today=date.today()
     str_today=str(today)
     str_model_name=str(args.model_name)
-    save_string="CoTrFuse_ISIC_"+str_today+"_"+str_model_name
+    save_string="CoTrFuse_ISIC2018_"+str_today+"_"+str_model_name
     train(model, save_string)
     torch.cuda.empty_cache()
     print("Task completed.")

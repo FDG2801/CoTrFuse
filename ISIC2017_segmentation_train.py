@@ -248,7 +248,7 @@ if __name__ == '__main__':
     today=date.today()
     str_today=str(today)
     str_model_name=str(args.model_name)
-    save_string="CoTrFuse_ISIC_"+str_today+"_"+str_model_name
+    save_string="CoTrFuse_ISIC2017_"+str_today+"_"+str_model_name
     train(model, save_string)
     torch.cuda.empty_cache()
     print("Task completed.")

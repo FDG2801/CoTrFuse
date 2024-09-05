@@ -1,4 +1,4 @@
-image_id,age_approximate,sex
+image_name,age_approximate,sex
 ISIC_0000000.jpg,55,female
 ISIC_0000001.jpg,30,female
 ISIC_0000002.jpg,60,female

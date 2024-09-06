@@ -14,4 +14,4 @@ for image_file in image_files:
 
 # Create DataFrame and write to CSV
 df = pd.DataFrame(rows, columns=['image_name'])
-df.to_csv('train_lungsegdata_complete.csv', index=False)
+df.to_csv('val_lungsegdata_complete.csv', index=False)

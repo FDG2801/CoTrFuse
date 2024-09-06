@@ -13,5 +13,5 @@ for image_file in image_files:
     rows.append((image_file, '', ''))
 
 # Create DataFrame and write to CSV
-df = pd.DataFrame(rows, columns=['image_id', 'age_approximate', 'sex'])
-df.to_csv('train_isic2018_complete.csv', index=False)
+df = pd.DataFrame(rows, columns=['image_name', 'age_approximate', 'sex'])
+df.to_csv('train_isic2017_complete.csv', index=False)

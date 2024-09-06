@@ -5,13 +5,13 @@ import pandas as pd
 all_files = os.listdir()
 
 # Filter for .jpg files
-image_files = [f for f in all_files if f.endswith('.jpg')]
+image_files = [f for f in all_files if f.endswith('.png')]
 
 # Prepare data for CSV
 rows = []
 for image_file in image_files:
-    rows.append((image_file, '', ''))
+    rows.append((image_file))
 
 # Create DataFrame and write to CSV
-df = pd.DataFrame(rows, columns=['image_name', 'age_approximate', 'sex'])
-df.to_csv('train_isic2017_complete.csv', index=False)
+df = pd.DataFrame(rows, columns=['image_name'])
+df.to_csv('train_lungsegdata_complete.csv', index=False)

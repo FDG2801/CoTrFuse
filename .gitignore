@@ -17,3 +17,5 @@ checkpoint/CoTrFuse_ISIC_resnet50/10 epochs/ckpt.pth
 checkpoint/CoTrFuse_ISIC_efficientnet-b0/10 epochs/ckpt.pth
 *.pth
 /datasets/covid_data
+val_colab.csv
+/datasets/tests

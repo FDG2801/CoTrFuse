@@ -1,3 +1,5 @@
+#Libraries import
+import cv2
 import os
 import torch
 import copy
@@ -6,29 +8,50 @@ from tqdm import tqdm
 from config import get_config
 import torch.nn as nn
 from torch.utils.data import DataLoader
-import numpy as np
 import pandas as pd
-from fit_COV import fit, set_seed, write_options
+from fit_COV_fdg import fit, set_seed, write_options
 from datasets.dataset_COV import for_train_transform, test_transform, Mydataset
 import argparse
 import warnings
 from network.CoTrFuse import SwinUnet as Vit
+import numpy as np 
+from torchinfo import summary
 import matplotlib.pyplot as plt
 from datetime import date
 
+
+#Clear the cache
+torch.cuda.empty_cache()
+
+#---------------------------------------------- Parser -----------------------------------------------------
+
+#Directories
+#----------------------------------------------
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--imgs_train_path', type=str,
-                    default='',
+                    default='/content/drive/MyDrive/CoTrFuse/datasets/covid_data/infection_segmentation_data/train_colab',
                     help='imgs train data path.')
 parser.add_argument('--labels_train_path', type=str,
-                    default='',
+                    default='/content/drive/MyDrive/CoTrFuse/datasets/covid_data/infection_segmentation_data/train_colab/gt',
+                    help='labels train data path - ground truth.')
+parser.add_argument('--csv_dir_train', type=str,
+                    default='/content/drive/MyDrive/CoTrFuse/train_covid_tiny_colab.csv',
                     help='labels train data path.')
-parser.add_argument('--imgs_train_list', type=str, default='', help="Train csv")
-parser.add_argument('--all_data_list', type=str,
-                    default='', )
-# -
-parser.add_argument('--batch_size', default=16, type=int, help='batchsize')
+parser.add_argument('--imgs_val_path', type=str,
+                    default='/content/drive/MyDrive/CoTrFuse/datasets/covid_data/infection_segmentation_data/val_colab',
+                    help='imgs val data path.')
+parser.add_argument('--labels_val_path', type=str,
+                    default='/content/drive/MyDrive/CoTrFuse/datasets/covid_data/infection_segmentation_data/val_colab/gt',
+                    help='labels val data path - ground truth.')
+parser.add_argument('--csv_dir_val', type=str,
+                    default='/content/drive/MyDrive/CoTrFuse/val_covid_colab_tiny_modified.csv',
+                    help='labels val data path.')
+#----------------------------------------------
+
+#Settings (batch size, workers, learning rate, epochs, num classes, yaml file, device)
+#----------------------------------------------
+parser.add_argument('--batch_size', default=8, type=int, help='batchsize') #BATCH SIZE
 parser.add_argument('--workers', default=16, type=int, help='batchsize')
 parser.add_argument('--lr', default=0.0001, type=float, help='learning rate')
 parser.add_argument('--start_epoch', '-s', default=0, type=int, )
@@ -36,7 +59,6 @@ parser.add_argument('--warm_epoch', '-w', default=0, type=int, )
 parser.add_argument('--end_epoch', '-e', default=50, type=int, )
 parser.add_argument('--img_size', type=int,
                     default=224, help='input patch size of network input')
-parser.add_argument('--resize', default=224, type=int, )
 parser.add_argument('--cfg', type=str, required=False, metavar="FILE", help='path to config file', default=
 'configs/swin_tiny_patch4_window7_224_lite_1.yaml')
 parser.add_argument('--num_classes', '-t', default=2, type=int, )
@@ -47,11 +69,15 @@ parser.add_argument(
     default=None,
     nargs='+',
 )
+#----------------------------------------------
+
+#Other options (zip, cache, resume, accumulations chekpoint, optimization)
+#----------------------------------------------
 parser.add_argument('--zip', action='store_true', help='use zipped dataset instead of folder dataset')
 parser.add_argument('--cache-mode', type=str, default='part', choices=['no', 'full', 'part'],
                     help='no: no cache, '
-                         'full: cache all data, '
-                         'part: sharding the dataset into nonoverlapping pieces and only cache one piece')
+                        'full: cache all data, '
+                        'part: sharding the dataset into nonoverlapping pieces and only cache one piece')
 parser.add_argument('--resume', help='resume from checkpoint')
 parser.add_argument('--accumulation-steps', type=int, help="gradient accumulation steps")
 parser.add_argument('--use-checkpoint', action='store_true',
@@ -62,66 +88,72 @@ parser.add_argument('--tag', help='tag of experiment')
 parser.add_argument('--eval', action='store_true', help='Perform evaluation only')
 parser.add_argument('--throughput', action='store_true', help='Test throughput only')
 parser.add_argument('--checkpoint', type=str, default='checkpoint/', )
+#----------------------------------------------
+
 #Name of the tested model
 #----------------------------------------------
 parser.add_argument('--model_name', type=str, default='resnet50', choices=['resnet50','efficientnet-b3','efficientnet-b0'],
                     help='mixed precision opt level, if O0, no amp is used')
+'''
+Please to understand which model you can use, refer to this github page
+https://github.com/qubvel/segmentation_models.pytorch
+'''
+#----------------------------------------------
+
+#Train starts
+print("Starting preliminary training operations...")
 args = parser.parse_args()
 config = get_config(args)
-
 begin_time = time.time()
 set_seed(seed=2021)
 device = args.device
 epochs = args.warm_epoch + args.end_epoch
 
-train_csv = args.imgs_train_list
-dataset_all = np.load(args.all_data_list) #dataset_all but only validation
-imgs_val, masks_val = dataset_all['val_images'], dataset_all['val_labels']
-
-df_train = pd.read_csv(train_csv)
-all_train_imgs = df_train['image_name']
+#CSV files for train and validation data
+print("Getting labels and images path")
+train_csv = args.csv_dir_train
+df_val=args.csv_dir_val
+#Variables that contains path to images and labels for both training and validation
 train_imgs, train_masks = args.imgs_train_path, args.labels_train_path
-train_imgs = [''.join([train_imgs, '/', i]) for i in all_train_imgs]
-train_masks = [''.join([train_masks, '/', i]) for i in all_train_imgs]
-imgs_train = [np.load(i) for i in train_imgs]
-masks_train = [np.load(i) for i in train_masks]
-
-print('image done')
+val_imgs, val_masks = args.imgs_val_path, args.labels_val_path
+print("Image done")
 
 train_transform = for_train_transform()
 test_transform = test_transform
 best_acc_final = []
 
-
+#Training function 
 def train(model, save_name):
+    #preparing the dir where the model will be saved
     model_savedir = args.checkpoint + save_name + '/'
     save_name = model_savedir + 'ckpt'
-    print(model_savedir)
+    print("This is the folder where the model will be saved: ",model_savedir)
+    #if does not exist, create it
     if not os.path.exists(model_savedir):
         os.mkdir(model_savedir)
-
-    train_ds = Mydataset(imgs_train, masks_train, train_transform)
-    val_ds = Mydataset(imgs_val, masks_val, test_transform)
-
-    criterion = nn.CrossEntropyLoss().to('cuda')
+    #Creating the dataset 'on demand' where the images are loaded only when needed
+    train_ds=Mydataset(train_csv,train_imgs, train_masks,train_transform)
+    val_ds=Mydataset(df_val, val_imgs, val_masks,test_transform,training=False)
+    #due to heaviness of the model, sometimes we need to switch to cuda 
+    if torch.cuda.is_available():
+        criterion = nn.CrossEntropyLoss().to('cuda')
+    else:
+        criterion=nn.CrossEntropyLoss()
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     CosineLR = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-8)
-
-    train_dl = DataLoader(train_ds, shuffle=True, batch_size=args.batch_size, pin_memory=False, num_workers=8,
-                          drop_last=True, )
+    #creating the dataloader object
+    train_dl = DataLoader(train_ds, shuffle=True, batch_size=args.batch_size, pin_memory=False, num_workers=8, drop_last=True)
     val_dl = DataLoader(val_ds, batch_size=args.batch_size, pin_memory=False, num_workers=8, )
-    #to plot for the accuracy ------------------------- not in the original code
     accuracies = []
     train_losses = []
     val_losses = []
     epoch_accuracies=[]
     best_acc = 0
-    # ------------------------------------------------------------------------------
+    print("Training is about to start...")
     with tqdm(total=epochs, ncols=60) as t:
         for epoch in range(epochs):
             epoch_loss, epoch_iou, epoch_val_loss, epoch_val_iou = \
                 fit(epoch, epochs, model, train_dl, val_dl, device, criterion, optimizer, CosineLR)
-
             f = open(model_savedir + 'log' + '.txt', "a")
             f.write('epoch' + str(float(epoch)) +
                     '  _train_loss' + str(epoch_loss) + '  _val_loss' + str(epoch_val_loss) +
@@ -176,13 +208,6 @@ def train(model, save_name):
     print("Average Train IoU:", avg_epoch_iou)
     print("Average Validation Loss:", avg_epoch_val_loss)
     print("Average Validation IoU:", avg_epoch_val_iou)
-    # ---- write on file ----
-    with open("averages_cov.txt", "w") as f:
-        f.write(f"Average Train Loss: {avg_epoch_loss}\n")
-        f.write(f"Average Train IoU: {avg_epoch_iou}\n")
-        f.write(f"Average Validation Loss: {avg_epoch_val_loss}\n")
-        f.write(f"Average Validation IoU: {avg_epoch_val_iou}\n")
-    print(f"Metrics saved to avergaes_cov.txt")
     # ----------------------------------------------------------------------------------
     #write the file and close
     write_options(model_savedir, args, best_acc)
@@ -190,13 +215,25 @@ def train(model, save_name):
     #clear cache
     torch.cuda.empty_cache()
 
-
 if __name__ == '__main__':
-    model = Vit(config, model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes).cuda()
+    print("Main started in train_COV_fdg.py")
+    #if cuda is available, use cuda
+    if torch.cuda.is_available():
+        model = Vit(config,model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes).cuda()
+    else:
+        model = Vit(config,model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes)
+    print("Model created (vit)")
+    print("Charging config file")
     model.load_from(config)
-    model.summary()
+    print("Summary about the model: \n")
+    #summary(model,input_size=(16,3,512,512))
+    print("Charged config file")
+    print("The encoder will be ",args.model_name)
+    from datetime import date
     today=date.today()
     str_today=str(today)
     str_model_name=str(args.model_name)
     save_string="CoTrFuse_COV_"+str_today+"_"+str_model_name
-    train(model, 'CoTrFuse/COV')
+    train(model, save_string)
+    torch.cuda.empty_cache()
+    print("Task completed.")

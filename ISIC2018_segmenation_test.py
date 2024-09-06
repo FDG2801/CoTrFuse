@@ -16,7 +16,7 @@ parser.add_argument('--labels_test_path', type=str,
                     default='datasets/isic2017/test/gt',
                     help='labels test data path.')
 parser.add_argument('--csv_dir_test', type=str,
-                    default='test_tiny_test.csv',
+                    default='test_mod.csv',
                     help='labels test data path.')
 parser.add_argument('--img_size', type=int,
                     default=512, help='input patch size of network input')

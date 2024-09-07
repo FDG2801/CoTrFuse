@@ -982,7 +982,8 @@ class SwinUnet(nn.Module):
         return logits
 
     def load_from(self, config):
-        pretrained_path = "pretrained_ckpt/swin_tiny_patch4_window7_224.pth"
+        #pretrained_path = "pretrained_ckpt/swin_tiny_patch4_window7_224.pth"
+        pretrained_path = "checkpoint/CoTrFuse_ISIC2017_2024-09-06_resnet50/ckpt.pth"
         if pretrained_path is not None:
             print("pretrained_path:{}".format(pretrained_path))
             device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

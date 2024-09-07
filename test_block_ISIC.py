@@ -1,12 +1,14 @@
 import torch
 from torch.utils.data import DataLoader
-from datasets.dataset_ISIC import Mydataset, test_transform
+#from datasets.dataset_ISIC import Mydataset, test_transform
+from datasets.ondemandISIC import OnDemandISIC2017, test_transform
 from tools_mine import Miou_ISIC as Miou
 
 
-def test_mertric_here(model, test_imgs, test_masks, save_name):
+def test_mertric_here(model, test_imgs, test_masks, save_name, csv):
     test_number = len(test_imgs)
-    test_ds = Mydataset(test_imgs, test_masks, test_transform)
+    get_csv=csv
+    test_ds = OnDemandISIC2017(get_csv, test_imgs, test_masks, test_transform)
     test_dl = DataLoader(test_ds, batch_size=1, pin_memory=False, num_workers=4, )
     model.load_state_dict(torch.load(save_name + '.pth'))
     model.eval()

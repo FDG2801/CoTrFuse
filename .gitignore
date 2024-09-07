@@ -21,3 +21,4 @@ val_colab.csv
 /datasets/tests
 /datasets/covid
 *.pyc
+*.pyc

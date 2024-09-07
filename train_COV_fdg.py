@@ -30,22 +30,22 @@ torch.cuda.empty_cache()
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--imgs_train_path', type=str,
-                    default='/content/drive/MyDrive/CoTrFuse/datasets/covid_data/infection_segmentation_data/train_colab',
+                    default='datasets/covid/infection_segmentation_data/all_train',
                     help='imgs train data path.')
 parser.add_argument('--labels_train_path', type=str,
-                    default='/content/drive/MyDrive/CoTrFuse/datasets/covid_data/infection_segmentation_data/train_colab/gt',
+                    default='datasets/covid/infection_segmentation_data/all_train/gt',
                     help='labels train data path - ground truth.')
 parser.add_argument('--csv_dir_train', type=str,
-                    default='/content/drive/MyDrive/CoTrFuse/train_covid_tiny_colab.csv',
+                    default='train_infsegdata_complete.csv',
                     help='labels train data path.')
 parser.add_argument('--imgs_val_path', type=str,
-                    default='/content/drive/MyDrive/CoTrFuse/datasets/covid_data/infection_segmentation_data/val_colab',
+                    default='datasets/covid/infection_segmentation_data/all_val',
                     help='imgs val data path.')
 parser.add_argument('--labels_val_path', type=str,
-                    default='/content/drive/MyDrive/CoTrFuse/datasets/covid_data/infection_segmentation_data/val_colab/gt',
+                    default='datasets/covid/infection_segmentation_data/all_val/gt',
                     help='labels val data path - ground truth.')
 parser.add_argument('--csv_dir_val', type=str,
-                    default='/content/drive/MyDrive/CoTrFuse/val_covid_colab_tiny_modified.csv',
+                    default='val_infsegdata_complete.csv',
                     help='labels val data path.')
 #----------------------------------------------
 

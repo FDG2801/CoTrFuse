@@ -60,7 +60,7 @@ parser.add_argument('--csv_dir_val', type=str,
 
 #Settings (batch size, workers, learning rate, epochs, num classes, yaml file, device)
 #----------------------------------------------
-parser.add_argument('--batch_size', default=8, type=int, help='batchsize') #BATCH SIZE
+parser.add_argument('--batch_size', default=16, type=int, help='batchsize') #BATCH SIZE
 parser.add_argument('--workers', default=16, type=int, help='batchsize')
 parser.add_argument('--lr', default=0.0001, type=float, help='learning rate')
 parser.add_argument('--start_epoch', '-s', default=0, type=int, )

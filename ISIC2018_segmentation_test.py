@@ -47,6 +47,15 @@ parser.add_argument('--eval', action='store_true', help='Perform evaluation only
 parser.add_argument('--throughput', action='store_true', help='Test throughput only')
 parser.add_argument('--checkpoint', type=str, default='', )
 parser.add_argument('--save_name', type=str, default='/efficientnet50epochs', )
+#Name of the tested model
+#----------------------------------------------
+parser.add_argument('--model_name', type=str, default='resnet50', choices=['resnet50','efficientnet-b3','efficientnet-b0'],
+                    help='mixed precision opt level, if O0, no amp is used')
+'''
+Please to understand which model you can use, refer to this github page
+https://github.com/qubvel/segmentation_models.pytorch
+'''
+#----------------------------------------------
 args = parser.parse_args()
 config = get_config(args)
 
@@ -65,9 +74,9 @@ print('image done')
 
 if __name__ == '__main__':
     if torch.cuda.is_available():
-        model = Vit(config, img_size=args.img_size, num_classes=args.num_classes).cuda()
+        model = Vit(config, model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes).cuda()
     else:
-        model = Vit(config, img_size=args.img_size, num_classes=args.num_classes)
+        model = Vit(config, model_name=args.model.name, img_size=args.img_size, num_classes=args.num_classes)
     dice, miou, pre, recall, f1_score, pa = test_mertric_here(model, imgs_test, masks_test, save_name)
     f = open(model_savedir + 'log1' + '.txt', "a")
     f.write('dice' + str(float(dice)) + '  _miou' + str(miou) +

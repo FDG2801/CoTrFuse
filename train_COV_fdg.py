@@ -5,7 +5,7 @@ import torch
 import copy
 import time
 from tqdm import tqdm
-from config_cov import get_config
+from config import get_config
 import torch.nn as nn
 from torch.utils.data import DataLoader
 import pandas as pd

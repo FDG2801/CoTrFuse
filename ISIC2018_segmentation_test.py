@@ -1,7 +1,7 @@
 import warnings
 import cv2
 import pandas as pd
-from config import get_config
+from config_isic2018 import get_config
 import argparse
 from network.CoTrFuse import SwinUnet as Vit
 from test_block_ISIC import test_mertric_here

@@ -3,7 +3,7 @@ import cv2
 import pandas as pd
 from config import get_config
 import argparse
-from network.CoTrFuse import SwinUnet as Vit
+from network.CoTrFuse_isic2017 import SwinUnet as Vit
 from test_block_ISIC import test_mertric_here
 import torch
 

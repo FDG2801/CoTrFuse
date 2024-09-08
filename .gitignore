@@ -22,3 +22,8 @@ val_colab.csv
 /datasets/covid
 *.pyc
 *.pyc
+*.pyc
+__pycache__/config.cpython-311.pyc
+network/__pycache__/CoTrFuse.cpython-311.pyc
+network/__pycache__/CoTrFuse.cpython-310.pyc
+datasets/__pycache__/dataset_ISIC.cpython-311.pyc

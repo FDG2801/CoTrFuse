@@ -108,6 +108,7 @@ def recall(input, target):
     # FP    predict 1 label 0
     FP = ((input == 1) & (target == 0)).sum()
     recall = (TP + 1e-6) / (TP + FN + 1e-6)
+    print("recall in recall",recall)
     return recall
 
 
@@ -125,6 +126,7 @@ def F1score(input, target):
     pre = (TP + 1e-6) / (TP + FP + 1e-6)
     recall = (TP + 1e-6) / (TP + FN + 1e-6)
     F1score = (2 * pre * recall) / (pre + recall + 1e-6)
+    print("F1 score and recall inside MIOU: ",F1score,recall)
     return F1score
 
 

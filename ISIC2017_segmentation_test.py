@@ -21,7 +21,7 @@ parser.add_argument('--csv_dir_test', type=str,
 parser.add_argument('--img_size', type=int,
                     default=512, help='input patch size of network input')
 parser.add_argument('--cfg', type=str, required=False, metavar="FILE", help='path to config file', default=
-'/swin_tiny_patch4_window7_224_lite.yaml')
+'confings/swin_tiny_patch4_window7_224_lite.yaml')
 parser.add_argument('--num_classes', '-t', default=2, type=int, )
 parser.add_argument('--device', default='cuda', type=str, )
 parser.add_argument(

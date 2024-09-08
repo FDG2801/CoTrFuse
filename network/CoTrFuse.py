@@ -982,8 +982,8 @@ class SwinUnet(nn.Module):
         return logits
 
     def load_from(self, config):
-        #pretrained_path = "pretrained_ckpt/swin_tiny_patch4_window7_224.pth" #standard
-        pretrained_path = "checkpoint/CoTrFuse_ISIC2017_2024-09-06_resnet50/ckpt.pth" #ResNet50_completo_ISIC2017
+        pretrained_path = "pretrained_ckpt/swin_tiny_patch4_window7_224.pth" #standard
+        #pretrained_path = "checkpoint/CoTrFuse_ISIC2017_2024-09-06_resnet50/ckpt.pth" #ResNet50_completo_ISIC2017
         #pretrained_path = "" #ResNet50_completo_ISIC2018
         #pretrained_path = "" #ResNet50_completo_COV_Infection
         #pretrainde_path = "" #COVID infection + lungs

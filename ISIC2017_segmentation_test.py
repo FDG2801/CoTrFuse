@@ -79,7 +79,7 @@ if __name__ == '__main__':
     else:
         model = Vit(config, model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes)
     dice, miou, pre, recall, f1_score, pa = test_mertric_here(model, test_imgs, test_masks, save_name, csv=args.csv_dir_test)
-    f = open(model_savedir + '\n batch size ' + str(args.batch_size) + ' log_CoTrFuse_ISIC2017_Test' + '.txt', "a")
+    f = open(model_savedir + 'log_CoTrFuse_ISIC2017_Test' + '.txt', "a")
     f.write('dice' + str(float(dice)) + '  _miou' + str(miou) +
             '  _pre' + str(pre) + '  _recall' + str(recall) +
             ' _f1_score' + str(f1_score) + ' _pa' + str(pa) + '\n')

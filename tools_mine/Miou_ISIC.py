@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-count=0
+global count
 #average_f1_score=[]
 def calculate_miou(input, target, classNum):
     '''

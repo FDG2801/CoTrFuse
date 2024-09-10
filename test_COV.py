@@ -52,7 +52,7 @@ print('images done')
 if __name__ == '__main__':
     model = Vit(config, img_size=args.img_size, num_classes=args.num_class).cuda()
     dice, miou, pre, recall, f1_score, pa = test_mertric_here(model, imgs_test, masks_test, save_name)
-    f = open(model_savedir + 'log1' + '.txt', "a")
+    f = open(model_savedir + 'log1_COV' + '.txt', "a")
     f.write('dice' + str(float(dice)) + '  _miou' + str(miou) +
             '  _pre' + str(pre) + '  _recall' + str(recall) +
             ' _f1_score' + str(f1_score) + ' _pa' + str(pa) + '\n')

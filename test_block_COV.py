@@ -4,9 +4,10 @@ from datasets.dataset_modified_COV import Mydataset, test_transform
 from tools_mine import Miou_COV as Miou
 
 
-def test_mertric_here(model, test_imgs, test_masks, save_name):
-    test_number = len(test_imgs)
-    test_ds = Mydataset(test_imgs, test_masks, test_transform)
+def test_mertric_here(model, test_imgs, test_masks, save_name,csv):
+    test_number = len(test_imgs) #1166 for infection #6788 for covid
+    get_csv=csv
+    test_ds = Mydataset(get_csv, test_imgs, test_masks, test_transform)
     test_dl = DataLoader(test_ds, batch_size=1, pin_memory=False, num_workers=4, )
     model.load_state_dict(torch.load(save_name + '.pth'))
     model.eval()
@@ -22,12 +23,12 @@ def test_mertric_here(model, test_imgs, test_masks, save_name):
             test_recall += Miou.recall(predicted, targets).item()
             test_F1score += Miou.F1score(predicted, targets).item()
             test_pa += Miou.Pa(predicted, targets).item()
-    average_test_dice = test_dice / test_number
-    average_test_miou = test_miou / test_number
-    average_test_Pre = test_Pre / test_number
-    average_test_recall = test_recall / test_number
-    average_test_F1score = test_F1score / test_number
-    average_test_pa = test_pa / test_number
+    average_test_dice = test_dice / 1166
+    average_test_miou = test_miou / 1166
+    average_test_Pre = test_Pre / 1166
+    average_test_recall = test_recall / 1166
+    average_test_F1score = test_F1score / 1166
+    average_test_pa = test_pa / 1166
     dice, miou, pre, recall, f1_score, pa = \
         '%.4f' % average_test_dice, '%.4f' % average_test_miou, '%.4f' % average_test_Pre, '%.4f' % average_test_recall, '%.4f' % average_test_F1score, '%.4f' % average_test_pa
     return dice, miou, pre, recall, f1_score, pa

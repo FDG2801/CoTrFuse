@@ -1,28 +1,28 @@
 import warnings
-import cv2
 import pandas as pd
-from config_isic2018 import get_config
+import numpy as np
+from network.CoTrFuse import SwinUnet as Vit
+from config import get_config
 import argparse
-from network.CoTrFuse_isic2018 import SwinUnet as Vit
-from test_block_ISIC import test_mertric_here
-import torch
+from test_block_COV import test_mertric_here
+
 
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--imgs_test_path', type=str,
-                    default='datasets/isic2018/test',
+                    default='datasets/covid/infection_segmentation_data/all_test',
                     help='imgs test data path.')
 parser.add_argument('--labels_test_path', type=str,
-                    default='datasets/isic2018/test/gt',
+                    default='datasets/covid/infection_segmentation_data/all_test/gt',
                     help='labels test data path.')
 parser.add_argument('--csv_dir_test', type=str,
-                    default='test_isic2018_complete.csv',
+                    default='test_infsegdata_complete.csv',
                     help='labels test data path.')
 parser.add_argument('--img_size', type=int,
-                    default=512, help='input patch size of network input')
+                    default=224, help='input patch size of network input')
 parser.add_argument('--cfg', type=str, required=False, metavar="FILE", help='path to config file', default=
-'configs/swin_tiny_patch4_window7_224_lite.yaml')
-parser.add_argument('--num_classes', '-t', default=2, type=int, )
+'configs/swin_tiny_patch4_window7_224_lite_1.yaml')
+parser.add_argument('--num_class', '-t', default=2, type=int, )
 parser.add_argument('--device', default='cuda', type=str, )
 parser.add_argument(
     "--opts",
@@ -30,7 +30,6 @@ parser.add_argument(
     default=None,
     nargs='+',
 )
-parser.add_argument('--batch_size', default=16, type=int, help='batchsize') #8
 parser.add_argument('--zip', action='store_true', help='use zipped dataset instead of folder dataset')
 parser.add_argument('--cache-mode', type=str, default='part', choices=['no', 'full', 'part'],
                     help='no: no cache, '
@@ -47,7 +46,6 @@ parser.add_argument('--eval', action='store_true', help='Perform evaluation only
 parser.add_argument('--throughput', action='store_true', help='Test throughput only')
 parser.add_argument('--checkpoint', type=str, default='', )
 parser.add_argument('--save_name', type=str, default='pretrained_ckpt', )
-#/content/drive/MyDrive/CoTrFuse/pretrained_ckpt/resnet50_isic2017_fulltrained.pth
 #Name of the tested model
 #----------------------------------------------
 parser.add_argument('--model_name', type=str, default='resnet50', choices=['resnet50','efficientnet-b3','efficientnet-b0'],
@@ -61,25 +59,16 @@ args = parser.parse_args()
 config = get_config(args)
 
 model_savedir = args.checkpoint + args.save_name + '/'
-save_name = model_savedir + 'resnet50_isic2018_fulltrained'
+save_name = model_savedir + 'resnet50_COV_infection_fulltrained'
 
-df_test = pd.read_csv(args.csv_dir_test)
+df_test=pd.read_csv(args.csv_dir_test)
 test_imgs, test_masks = args.imgs_test_path, args.labels_test_path
-# test_imgs = [''.join([test_imgs, '/', i.replace('.jpg', '.jpg')]) for i in df_test['image_name']]
-# test_masks = [''.join([test_masks, '/', i.replace('.jpg', '_segmentation.png')]) for i in df_test['image_name']]
-# imgs_test = [cv2.imread(i)[:, :, ::-1] for i in test_imgs]
-# masks_test = [cv2.imread(i)[:, :, 0] for i in test_masks]
-
-print('image done')
 
 
 if __name__ == '__main__':
-    if torch.cuda.is_available():
-        model = Vit(config, model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes).cuda()
-    else:
-        model = Vit(config, model_name=args.model_name, img_size=args.img_size, num_classes=args.num_classes)
+    model = Vit(config, model_name=args.model_name, img_size=args.img_size, num_classes=args.num_class).cuda()
     dice, miou, pre, recall, f1_score, pa = test_mertric_here(model, test_imgs, test_masks, save_name, csv=args.csv_dir_test)
-    f = open(model_savedir + 'log_CoTrFuse_ISIC2018_Test' + '.txt', "a")
+    f = open(model_savedir + 'log1_COV_onlyinfection' + '.txt', "a")
     f.write('dice' + str(float(dice)) + '  _miou' + str(miou) +
             '  _pre' + str(pre) + '  _recall' + str(recall) +
             ' _f1_score' + str(f1_score) + ' _pa' + str(pa) + '\n')

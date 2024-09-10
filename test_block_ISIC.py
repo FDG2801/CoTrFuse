@@ -6,7 +6,7 @@ from tools_mine import Miou_ISIC as Miou
 
 
 def test_mertric_here(model, test_imgs, test_masks, save_name, csv):
-    test_number = len(test_imgs) #600 #
+    test_number = len(test_imgs) #600 isic 2017 #1000 isic 2018
     get_csv=csv
     test_ds = OnDemandISIC2017(get_csv, test_imgs, test_masks, test_transform)
     test_dl = DataLoader(test_ds, batch_size=1, pin_memory=False, num_workers=4, )
@@ -34,13 +34,12 @@ def test_mertric_here(model, test_imgs, test_masks, save_name, csv):
     print("ALL THE PA: \n",pa_aggregator)
     print("ALL THE MIOU: \n",miou_aggregator)
     print("ALL THE DICE: \n",dice_aggregator)
-    average_test_dice = test_dice / 600
-    average_test_miou = test_miou / 600
-    average_test_Pre = test_Pre / 600
-    average_test_recall = test_recall / 600
-    #print("AVERAGE TEST F1 SCORE: ",average_test_F1score)
-    average_test_F1score = test_F1score / 600
-    average_test_pa = test_pa / 600
+    average_test_dice = test_dice / 1000
+    average_test_miou = test_miou / 1000
+    average_test_Pre = test_Pre / 1000
+    average_test_recall = test_recall / 1000
+    average_test_F1score = test_F1score / 1000
+    average_test_pa = test_pa / 1000
     dice, miou, pre, recall, f1_score, pa = \
         '%.4f' % average_test_dice, '%.4f' % average_test_miou, '%.4f' % average_test_Pre, '%.4f' % average_test_recall, '%.4f' % average_test_F1score, '%.4f' % average_test_pa
     return dice, miou, pre, recall, f1_score, pa

@@ -34,13 +34,13 @@ def test_mertric_here(model, test_imgs, test_masks, save_name, csv):
     print("ALL THE PA: \n",pa_aggregator)
     print("ALL THE MIOU: \n",miou_aggregator)
     print("ALL THE DICE: \n",dice_aggregator)
-    average_test_dice = test_dice / 150
-    average_test_miou = test_miou / 150
-    average_test_Pre = test_Pre / 150
-    average_test_recall = test_recall / 150
+    average_test_dice = test_dice / 600
+    average_test_miou = test_miou / 600
+    average_test_Pre = test_Pre / 600
+    average_test_recall = test_recall / 600
     #print("AVERAGE TEST F1 SCORE: ",average_test_F1score)
-    average_test_F1score = test_F1score / 150
-    average_test_pa = test_pa / 150
+    average_test_F1score = test_F1score / 600
+    average_test_pa = test_pa / 600
     dice, miou, pre, recall, f1_score, pa = \
         '%.4f' % average_test_dice, '%.4f' % average_test_miou, '%.4f' % average_test_Pre, '%.4f' % average_test_recall, '%.4f' % average_test_F1score, '%.4f' % average_test_pa
     return dice, miou, pre, recall, f1_score, pa

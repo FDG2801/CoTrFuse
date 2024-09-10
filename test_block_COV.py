@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import DataLoader
-from datasets.dataset_COV import Mydataset, test_transform
+from datasets.dataset_modified_COV import Mydataset, test_transform
 from tools_mine import Miou_COV as Miou
 
 

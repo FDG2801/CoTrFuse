@@ -1,0 +1,6 @@
+['lr', '0.0001']
+['batch', 8]
+['seed', 8]
+['best_val_acc', '0.9666817581169626']
+['warm_epoch', 0]
+['end_epoch', 50]

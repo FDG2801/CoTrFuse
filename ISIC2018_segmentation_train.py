@@ -189,7 +189,7 @@ def train(model, save_name):
     # IoU
     plt.figure(figsize=(8, 4))
     plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-')
-    plt.title('Accuracy over Epochs '+ args.model_name)
+    plt.title('IoU '+ args.model_name)
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.grid(True)

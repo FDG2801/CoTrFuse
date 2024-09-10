@@ -10,7 +10,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 import pandas as pd
 from fit_COV_fdg import fit, set_seed, write_options
-from datasets.dataset_COV import for_train_transform, test_transform, Mydataset
+from datasets.dataset_modified_COV import for_train_transform, test_transform, Mydataset
 import argparse
 import warnings
 from network.CoTrFuse import SwinUnet as Vit
@@ -30,22 +30,22 @@ torch.cuda.empty_cache()
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--imgs_train_path', type=str,
-                    default='datasets/covid/infection_segmentation_data/all_train',
+                    default='datasets/covid/lung_segmentation_data/all_train', 
                     help='imgs train data path.')
 parser.add_argument('--labels_train_path', type=str,
-                    default='datasets/covid/infection_segmentation_data/all_train/gt',
+                    default='datasets/covid/lung_segmentation_data/all_train/gt',
                     help='labels train data path - ground truth.')
 parser.add_argument('--csv_dir_train', type=str,
-                    default='train_infsegdata_complete.csv',
+                    default='train_lungsegdata_complete.csv',
                     help='labels train data path.')
 parser.add_argument('--imgs_val_path', type=str,
-                    default='datasets/covid/infection_segmentation_data/all_val',
+                    default='datasets/covid/lung_segmentation_data/all_val',
                     help='imgs val data path.')
 parser.add_argument('--labels_val_path', type=str,
-                    default='datasets/covid/infection_segmentation_data/all_val/gt',
+                    default='datasets/covid/lung_segmentation_data/all_val/gt',
                     help='labels val data path - ground truth.')
 parser.add_argument('--csv_dir_val', type=str,
-                    default='val_infsegdata_complete.csv',
+                    default='val_lungsegdata_complete.csv',
                     help='labels val data path.')
 #----------------------------------------------
 
@@ -174,7 +174,7 @@ def train(model, save_name):
     # IoU
     plt.figure(figsize=(8, 4))
     plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-')
-    plt.title('Accuracy over Epochs '+ args.model_name)
+    plt.title('Epochs Val IoU '+ args.model_name)
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.grid(True)
@@ -233,7 +233,7 @@ if __name__ == '__main__':
     today=date.today()
     str_today=str(today)
     str_model_name=str(args.model_name)
-    save_string="CoTrFuse_COV_"+str_today+"_"+str_model_name
+    save_string="CoTrFuse_COV_infandlung_"+str_today+"_"+str_model_name
     train(model, save_string)
     torch.cuda.empty_cache()
     print("Task completed.")

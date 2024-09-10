@@ -1,7 +1,7 @@
 import torch
 import numpy as np
-
-average_f1_score=[]
+count=0
+#average_f1_score=[]
 def calculate_miou(input, target, classNum):
     '''
     :param input: [b,h,w]
@@ -126,8 +126,8 @@ def F1score(input, target):
     pre = (TP + 1e-6) / (TP + FP + 1e-6)
     recall = (TP + 1e-6) / (TP + FN + 1e-6)
     F1score = (2 * pre * recall) / (pre + recall + 1e-6)
-    print("F1 score and recall inside MIOU: ",F1score,recall)
-    
+    count+=1
+    print("COUNT VALUE",count)
     return F1score
 
 

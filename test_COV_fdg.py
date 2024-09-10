@@ -30,6 +30,7 @@ parser.add_argument(
     default=None,
     nargs='+',
 )
+parser.add_argument('--batch_size', default=8, type=int, help='batchsize') #BATCH SIZE
 parser.add_argument('--zip', action='store_true', help='use zipped dataset instead of folder dataset')
 parser.add_argument('--cache-mode', type=str, default='part', choices=['no', 'full', 'part'],
                     help='no: no cache, '

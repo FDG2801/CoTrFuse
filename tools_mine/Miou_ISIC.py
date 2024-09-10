@@ -1,25 +1,38 @@
 import torch
 import numpy as np
-# f1_score_aggregator=[]
-# pre_aggregator=[]
-# recall_aggregator=[]
-# pa_aggregator=[]
+f1_score_aggregator=[]
+pre_aggregator=[]
+recall_aggregator=[]
+pa_aggregator=[]
+miou_aggregator=[]
+dice_aggregator=[]
 
-# def add_f1(x):
-#     global f1_score_aggregator
-#     f1_score_aggregator.append(x)
+def add_f1(x):
+    global f1_score_aggregator
+    f1_score_aggregator.append(x)
 
-# def add_recall(x):
-#     global recall_aggregator
-#     recall_aggregator.append(x)
+def add_recall(x):
+    global recall_aggregator
+    recall_aggregator.append(x)
 
-# def add_pre(x):
-#     global pre_aggregator
-#     pre_aggregator.append(x)
+def add_pre(x):
+    global pre_aggregator
+    pre_aggregator.append(x)
 
-# def add_pa(x):
-#     global pa_aggregator
-#     pa_aggregator.append(x)
+def add_pa(x):
+    global pa_aggregator
+    pa_aggregator.append(x)
+
+def add_miou(x):
+    global miou_aggregator
+    miou_aggregator.append(x)
+
+def add_dice(x):
+    global dice_aggregator
+    dice_aggregator.append(x)
+
+def get_aggregators():
+    return f1_score_aggregator,recall_aggregator,pre_aggregator,pa_aggregator,miou_aggregator,dice_aggregator
 #average_f1_score=[]
 def calculate_miou(input, target, classNum):
     '''
@@ -52,6 +65,7 @@ def calculate_miou(input, target, classNum):
             ious.append(iou.item())
         miou = np.mean(ious)  # 计算该图像的miou
         batchMious.append(miou)
+        add_miou(miou)
     return np.mean(batchMious)
 
 
@@ -83,6 +97,7 @@ def calculate_mdice(input, target, classNum):
             ious.append(iou.item())
         miou = np.mean(ious)  # 计算该图像的miou
         batchMious.append(miou)
+        add_dice(miou)
     return np.mean(batchMious)
 
 
@@ -97,6 +112,7 @@ def Pa(input, target):
     x = torch.sum(tmp).float()
     y = input.nelement()
     # print('x',x,y)
+    add_pa(x/y)
     return (x / y)
 
 
@@ -112,6 +128,7 @@ def pre(input, target):
     # FP    predict 1 label 0
     FP = ((input == 1) & (target == 0)).sum()
     pre = (TP + 1e-6) / (TP + FP + 1e-6)
+    add_pre(pre)
     return pre
 
 
@@ -127,6 +144,7 @@ def recall(input, target):
     # FP    predict 1 label 0
     FP = ((input == 1) & (target == 0)).sum()
     recall = (TP + 1e-6) / (TP + FN + 1e-6)
+    add_recall(recall)
     return recall
 
 
@@ -144,6 +162,7 @@ def F1score(input, target):
     pre = (TP + 1e-6) / (TP + FP + 1e-6)
     recall = (TP + 1e-6) / (TP + FN + 1e-6)
     F1score = (2 * pre * recall) / (pre + recall + 1e-6)
+    add_f1(F1score)
     return F1score
 
 

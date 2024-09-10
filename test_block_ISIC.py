@@ -27,6 +27,13 @@ def test_mertric_here(model, test_imgs, test_masks, save_name, csv):
             test_recall += Miou.recall(predicted, targets).item()
             test_F1score += Miou.F1score(predicted, targets).item()
             test_pa += Miou.Pa(predicted, targets).item()
+    f1_score_aggregator,recall_aggregator,pre_aggregator,pa_aggregator,miou_aggregator,dice_aggregator=Miou.get_aggregators()
+    print("ALL THE F1: \n",f1_score_aggregator)
+    print("ALL THE RECALL: \n",recall_aggregator)
+    print("ALL THE PRECISION: \n",pre_aggregator)
+    print("ALL THE PA: \n",pa_aggregator)
+    print("ALL THE MIOU: \n",miou_aggregator)
+    print("ALL THE DICE: \n",dice_aggregator)
     average_test_dice = test_dice / 150
     average_test_miou = test_miou / 150
     average_test_Pre = test_Pre / 150

@@ -1,25 +1,25 @@
 import torch
 import numpy as np
-f1_score_aggregator=[]
-pre_aggregator=[]
-recall_aggregator=[]
-pa_aggregator=[]
+# f1_score_aggregator=[]
+# pre_aggregator=[]
+# recall_aggregator=[]
+# pa_aggregator=[]
 
-def add_f1(x):
-    global f1_score_aggregator
-    f1_score_aggregator.append(x)
+# def add_f1(x):
+#     global f1_score_aggregator
+#     f1_score_aggregator.append(x)
 
-def add_recall(x):
-    global recall_aggregator
-    recall_aggregator.append(x)
+# def add_recall(x):
+#     global recall_aggregator
+#     recall_aggregator.append(x)
 
-def add_pre(x):
-    global pre_aggregator
-    pre_aggregator.append(x)
+# def add_pre(x):
+#     global pre_aggregator
+#     pre_aggregator.append(x)
 
-def add_pa(x):
-    global pa_aggregator
-    pa_aggregator.append(x)
+# def add_pa(x):
+#     global pa_aggregator
+#     pa_aggregator.append(x)
 #average_f1_score=[]
 def calculate_miou(input, target, classNum):
     '''

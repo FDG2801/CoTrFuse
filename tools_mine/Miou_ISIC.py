@@ -1,6 +1,9 @@
 import torch
 import numpy as np
-global count
+count = 0
+def modify_global():
+    global count
+    count+=1
 #average_f1_score=[]
 def calculate_miou(input, target, classNum):
     '''
@@ -126,8 +129,8 @@ def F1score(input, target):
     pre = (TP + 1e-6) / (TP + FP + 1e-6)
     recall = (TP + 1e-6) / (TP + FN + 1e-6)
     F1score = (2 * pre * recall) / (pre + recall + 1e-6)
-    count+=1
-    print("COUNT VALUE",count)
+    modify_global()
+    print("Count: ",count)
     return F1score
 
 

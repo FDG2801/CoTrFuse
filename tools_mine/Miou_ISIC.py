@@ -1,9 +1,25 @@
 import torch
 import numpy as np
-count = 0
-def modify_global():
-    global count
-    count+=1
+f1_score_aggregator=[]
+pre_aggregator=[]
+recall_aggregator=[]
+pa_aggregator=[]
+
+def add_f1(x):
+    global f1_score_aggregator
+    f1_score_aggregator.append(x)
+
+def add_recall(x):
+    global recall_aggregator
+    recall_aggregator.append(x)
+
+def add_pre(x):
+    global pre_aggregator
+    pre_aggregator.append(x)
+
+def add_pa(x):
+    global pa_aggregator
+    pa_aggregator.append(x)
 #average_f1_score=[]
 def calculate_miou(input, target, classNum):
     '''
@@ -111,7 +127,6 @@ def recall(input, target):
     # FP    predict 1 label 0
     FP = ((input == 1) & (target == 0)).sum()
     recall = (TP + 1e-6) / (TP + FN + 1e-6)
-    print("recall in recall",recall)
     return recall
 
 
@@ -129,8 +144,6 @@ def F1score(input, target):
     pre = (TP + 1e-6) / (TP + FP + 1e-6)
     recall = (TP + 1e-6) / (TP + FN + 1e-6)
     F1score = (2 * pre * recall) / (pre + recall + 1e-6)
-    modify_global()
-    print("Count: ",count)
     return F1score
 
 

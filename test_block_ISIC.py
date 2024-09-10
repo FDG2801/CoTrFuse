@@ -30,7 +30,7 @@ def test_mertric_here(model, test_imgs, test_masks, save_name, csv):
     average_test_dice = test_dice / test_number
     average_test_miou = test_miou / test_number
     average_test_Pre = test_Pre / test_number
-    average_test_recall = test_recall / test_number
+    average_test_recall = test_recall / 150
     #print("AVERAGE TEST F1 SCORE: ",average_test_F1score)
     average_test_F1score = test_F1score / test_number
     average_test_pa = test_pa / test_number

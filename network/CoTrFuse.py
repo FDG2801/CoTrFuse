@@ -987,7 +987,7 @@ class SwinUnet(nn.Module):
         #pretrained_path = "" #ResNet50_completo_ISIC2018 per testate
         #pretrained_path = "" #ResNet50_completo_COV_Infection per testare
         #pretrainde_path = "" #COVID infection + lungs
-        pretrained_path = "pretrained_ckpt/resnet50_COV_infection_fulltrained.pth"
+        pretrained_path = "pretrained_ckpt/resnet50_COV_lungandinf_fulltrained.pth"
         if pretrained_path is not None:
             print("pretrained_path:{}".format(pretrained_path))
             device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

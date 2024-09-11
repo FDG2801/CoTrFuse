@@ -60,7 +60,7 @@ args = parser.parse_args()
 config = get_config(args)
 
 model_savedir = args.checkpoint + args.save_name + '/'
-save_name = model_savedir + 'resnet50_COV_infection_fulltrained'
+save_name = model_savedir + 'resnet50_COV_lungandinf_fulltrained'
 
 df_test=pd.read_csv(args.csv_dir_test)
 test_imgs, test_masks = args.imgs_test_path, args.labels_test_path

@@ -51,7 +51,8 @@ _C.MODEL.NAME = 'resnet50_COV_infection_fulltrained'
 #_C.MODEL.PRETRAIN_CKPT = 'pretrained_ckpt/resnet50_isic2017_fulltrained.pth' #Test 2017
 #_C.MODEL.PRETRAIN_CKPT = 'pretrained_ckpt/resnet50_isic2018_fulltrained.pth' #Test 2018
 #_C.MODEL.PRETRAIN_CKPT = 'pretrained_ckpt/resnet50_cov_fulltrained.pth' #Test 2017
-_C.MODEL.PRETRAIN_CKPT = 'pretrained_ckpt/resnet50_COV_infection_fulltrained.pth' #continue COV
+#_C.MODEL.PRETRAIN_CKPT = 'pretrained_ckpt/resnet50_COV_infection_fulltrained.pth' #continue COV
+_C.MODEL.PRETRAIN_CKPT = 'pretrained_ckpt/resnet50_COV_lungandinf_fulltrained.pth' #COV lung + inf test
 _C.MODEL.RESUME = ''
 # Number of classes, overwritten in data preparation
 _C.MODEL.NUM_CLASSES = 1000

@@ -10,13 +10,13 @@ from test_block_COV import test_mertric_here
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--imgs_test_path', type=str,
-                    default='datasets/covid/infection_segmentation_data/all_test',
+                    default='datasets/covid/lung_segmentation_data/all_test',
                     help='imgs test data path.')
 parser.add_argument('--labels_test_path', type=str,
-                    default='datasets/covid/infection_segmentation_data/all_test/gt',
+                    default='datasets/covid/lung_segmentation_data/all_test/gt',
                     help='labels test data path.')
 parser.add_argument('--csv_dir_test', type=str,
-                    default='test_infsegdata_complete.csv',
+                    default='train_lungsegdata_complete.csv',
                     help='labels test data path.')
 parser.add_argument('--img_size', type=int,
                     default=224, help='input patch size of network input')
@@ -69,7 +69,7 @@ test_imgs, test_masks = args.imgs_test_path, args.labels_test_path
 if __name__ == '__main__':
     model = Vit(config, model_name=args.model_name, img_size=args.img_size, num_classes=args.num_class).cuda()
     dice, miou, pre, recall, f1_score, pa = test_mertric_here(model, test_imgs, test_masks, save_name, csv=args.csv_dir_test)
-    f = open(model_savedir + 'log1_COV_onlyinfection' + '.txt', "a")
+    f = open(model_savedir + 'log1_COV_lungandinf' + '.txt', "a")
     f.write('dice' + str(float(dice)) + '  _miou' + str(miou) +
             '  _pre' + str(pre) + '  _recall' + str(recall) +
             ' _f1_score' + str(f1_score) + ' _pa' + str(pa) + '\n')

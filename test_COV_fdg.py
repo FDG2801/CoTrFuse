@@ -69,7 +69,7 @@ test_imgs, test_masks = args.imgs_test_path, args.labels_test_path
 if __name__ == '__main__':
     model = Vit(config, model_name=args.model_name, img_size=args.img_size, num_classes=args.num_class).cuda()
     dice, miou, pre, recall, f1_score, pa = test_mertric_here(model, test_imgs, test_masks, save_name, csv=args.csv_dir_test)
-    f = open(model_savedir + 'log1_COV_lungandinf' + '.txt', "a")
+    f = open(model_savedir + 'log1_COV_lungandinf_2' + '.txt', "a")
     f.write('dice' + str(float(dice)) + '  _miou' + str(miou) +
             '  _pre' + str(pre) + '  _recall' + str(recall) +
             ' _f1_score' + str(f1_score) + ' _pa' + str(pa) + '\n')

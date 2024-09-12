@@ -23,12 +23,12 @@ def test_mertric_here(model, test_imgs, test_masks, save_name,csv):
             test_recall += Miou.recall(predicted, targets).item()
             test_F1score += Miou.F1score(predicted, targets).item()
             test_pa += Miou.Pa(predicted, targets).item()
-    average_test_dice = test_dice / 1166
-    average_test_miou = test_miou / 1166
-    average_test_Pre = test_Pre / 1166
-    average_test_recall = test_recall / 1166
-    average_test_F1score = test_F1score / 1166
-    average_test_pa = test_pa / 1166
+    average_test_dice = test_dice / 6788
+    average_test_miou = test_miou / 6788
+    average_test_Pre = test_Pre / 6788
+    average_test_recall = test_recall / 6788
+    average_test_F1score = test_F1score / 6788
+    average_test_pa = test_pa / 6788
     dice, miou, pre, recall, f1_score, pa = \
         '%.4f' % average_test_dice, '%.4f' % average_test_miou, '%.4f' % average_test_Pre, '%.4f' % average_test_recall, '%.4f' % average_test_F1score, '%.4f' % average_test_pa
     return dice, miou, pre, recall, f1_score, pa

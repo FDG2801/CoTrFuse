@@ -16,7 +16,7 @@ parser.add_argument('--labels_test_path', type=str,
                     default='datasets/covid/lung_segmentation_data/all_test/gt',
                     help='labels test data path.')
 parser.add_argument('--csv_dir_test', type=str,
-                    default='train_lungsegdata_complete.csv',
+                    default='test_lungdata_complete.csv',
                     help='labels test data path.')
 parser.add_argument('--img_size', type=int,
                     default=224, help='input patch size of network input')

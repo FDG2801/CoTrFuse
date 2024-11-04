@@ -478,29 +478,6 @@ class PatchExpand(nn.Module):
         x = self.norm(x)
 
         return x
-    # ##NUMPY
-    # def forward(self, x):
-    #     """
-    #     x: B, H*W, C
-    #     """
-    #     H, W = self.input_resolution
-    #     x = self.expand(x)
-    #     B, L, C = x.shape
-    #     assert L == H * W, "input feature has wrong size"
-
-    #     x = x.view(B, H, W, C)
-
-    #     # Reshape the channel dimension
-    #     x_reshaped = x.reshape(B, H, W, 2, 2, C // 4)
-
-    #     # Transpose the dimensions
-    #     x_transposed = np.transpose(x_reshaped, (0, 1, 3, 2, 4, 5))
-
-    #     # Reshape to the desired output shape
-    #     x = x_transposed.reshape(B, -1, C // 4)
-    #     x = self.norm(x)
-
-    #     return x
 
 
 class FinalPatchExpand_X4(nn.Module):
@@ -529,31 +506,6 @@ class FinalPatchExpand_X4(nn.Module):
         x = self.norm(x)
 
         return x
-    # ## USING NUMPY
-    # ## Numpy invece di einops
-    # def forward(self, x):
-    #     """
-    #     x: B, H*W, C
-    #     """
-    #     H, W = self.input_resolution
-    #     x = self.expand(x)
-    #     B, L, C = x.shape
-    #     assert L == H * W, "input feature has wrong size"
-
-    #     x = x.view(B, H, W, C)
-
-
-    #     # Reshape the channel dimension
-    #     x_reshaped = x.reshape(B, H, W, self.dim_scale, self.dim_scale, C // (self.dim_scale ** 2))
-
-    #     # Transpose the dimensions
-    #     x_transposed = np.transpose(x_reshaped, (0, 1, 3, 2, 4, 5))
-
-    #     # Reshape to the desired output shape
-    #     x = x_transposed.reshape(B, -1, self.output_dim)
-    #     x = self.norm(x)
-
-    #     return x
 
 
 class BasicLayer(nn.Module):
@@ -770,7 +722,6 @@ class SwinTransformerSys(nn.Module):
         num_patches = self.patch_embed.num_patches
         patches_resolution = self.patch_embed.patches_resolution
         self.patches_resolution = patches_resolution
-        #might be the model too heavy?
         # original: resnet50
         self.encoder = get_encoder(name=model_name,  # encoder_name
                                    in_channels=3,
@@ -983,11 +934,11 @@ class SwinUnet(nn.Module):
 
     def load_from(self, config):
         #pretrained_path = "pretrained_ckpt/swin_tiny_patch4_window7_224.pth" #standard
-        #pretrained_path = "checkpoint/CoTrFuse_ISIC2017_2024-09-06_resnet50/ckpt.pth" #ResNet50_completo_ISIC2017 per testate
+        pretrained_path = "pretrained_ckpt/resnet50_isic2017_fulltrained.pth" #ResNet50_completo_ISIC2017 per testate
         #pretrained_path = "" #ResNet50_completo_ISIC2018 per testate
         #pretrained_path = "" #ResNet50_completo_COV_Infection per testare
         #pretrainde_path = "" #COVID infection + lungs
-        pretrained_path = "pretrained_ckpt/resnet50_COV_lungandinf_fulltrained.pth"
+        #pretrained_path = "pretrained_ckpt/resnet50_COV_lungandinf_fulltrained.pth"
         if pretrained_path is not None:
             print("pretrained_path:{}".format(pretrained_path))
             device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

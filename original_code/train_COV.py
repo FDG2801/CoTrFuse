@@ -8,7 +8,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 import numpy as np
 import pandas as pd
-from fit_COV import fit, set_seed, write_options
+from original_code.fit_COV import fit, set_seed, write_options
 from datasets.dataset_COV import for_train_transform, test_transform, Mydataset
 import argparse
 import warnings
